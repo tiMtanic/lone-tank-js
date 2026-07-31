@@ -52,17 +52,16 @@ body {
 
 .main-content-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   border: 1px solid #ffffff;
   width: 500px;
   height: 500px;
-  box-sizing: border-box;
 }
 
 .menu-container {
   padding: 32px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #game-start-screen,
@@ -70,4 +69,15 @@ body {
 #game-over-screen,
 #game-win-screen {
   display: none;
+}
+
+#gameplay-container {
+  position: relative;
+  /* overflow: hidden; */
+  user-select: none;
+  box-sizing: border-box;
+}
+
+#gameplay-container * {
+  pointer-events: none;
 }

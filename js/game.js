@@ -3,6 +3,7 @@ const gameStartScreenNode = document.querySelector("#game-start-screen");
 const gameplayScreenNode = document.querySelector("#gameplay-screen");
 const gameOverScreenNode = document.querySelector("#game-over-screen");
 const gameWinScreenNode = document.querySelector("#game-win-screen");
+const gameplayContainerNode = document.querySelector("#gameplay-container");
 
 // Buttons
 const startButtonNode = gameStartScreenNode.querySelector("#start-game-btn");
@@ -13,6 +14,7 @@ const restartButtonOnWinNode =
 
 class Game {
   constructor(initialState) {
+    this.player = null;
     this.gameplayLoopIntervalId = null;
     this.changeGameState(initialState);
   }
@@ -63,7 +65,27 @@ class Game {
     gameWinScreenNode.style.display = "flex";
   }
 
+  getPlayer() {
+    if (!this.player) {
+      this.player = new Player();
+    }
+
+    return this.player;
+  }
+
+  spawnPlayer() {
+    const playerObj = this.getPlayer();
+
+    // Calculate the spawning point for the player
+    // (The exact middle of the gameplay-container.)
+    playerObj.playerNode.style.left = `${gameplayContainerNode.offsetWidth / 2 - playerObj.width / 2}px`;
+    playerObj.playerNode.style.top = `${gameplayContainerNode.offsetHeight / 2 - playerObj.height / 2}px`;
+
+    gameplayContainerNode.append(playerObj.playerNode);
+  }
+
   handleStartGameplay() {
+    this.spawnPlayer();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60);
   }
 
@@ -75,6 +97,7 @@ class Game {
 // Init new game on load
 let game = new Game("start");
 
+// Event Listeners
 startButtonNode.addEventListener("click", () => {
   game.changeGameState("gameplay");
 });

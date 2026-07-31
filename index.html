@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./styles/style.css" />
 
     <!-- import JS files -->
+    <script src="./js/player.js" defer></script>
     <script src="./js/game.js" defer></script>
 
     <title>LONE TANK</title>
@@ -23,12 +24,12 @@
 
     <!-- gameplay screen -->
     <div id="gameplay-screen" class="game-screen-container">
-      <div class="main-content-container"></div>
+      <div id="gameplay-container" class="main-content-container"></div>
     </div>
 
     <!-- game over screen -->
     <div id="game-over-screen" class="game-screen-container">
-      <div class="main-content-container">
+      <div class="main-content-container menu-container">
         <h1>LONE TANK</h1>
         <button id="restart-game-btn">RESTART</button>
       </div>
@@ -36,7 +37,7 @@
 
     <!-- game win screen -->
     <div id="game-win-screen" class="game-screen-container">
-      <div class="main-content-container">
+      <div class="main-content-container menu-container">
         <h1>LONE TANK</h1>
         <button id="restart-game-btn">RESTART</button>
       </div>
