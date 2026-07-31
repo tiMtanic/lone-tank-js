@@ -16,6 +16,7 @@ class Game {
   constructor(initialState) {
     this.player = null;
     this.enemies = [];
+    this.playerProjectiles = [];
     this.gameplayLoopIntervalId = null;
     this.maxX;
     this.maxY;
@@ -95,6 +96,11 @@ class Game {
     gameplayContainerNode.append(enemy.node);
   }
 
+  spawnProjectile(projectile) {
+    this.playerProjectiles.push(projectile);
+    gameplayContainerNode.append(projectile.node);
+  }
+
   canEntityMove(entity, desiredX, desiredY) {
     //Check if the entity will be inside bounds of the gameplay area
     if (desiredY < 0) {
@@ -108,6 +114,40 @@ class Game {
     }
 
     return true;
+  }
+
+  isProjectileOutOfBounds(projectile) {
+    if (projectile.y < 0 - projectile.height) {
+      return true;
+    } else if (projectile.y > this.maxY) {
+      return true;
+    } else if (projectile.x < 0 - projectile.width) {
+      return true;
+    } else if (projectile.x > this.maxX) {
+      return true;
+    }
+
+    return false;
+  }
+
+  handleProjectiles() {
+    this.cleanProjectiles();
+    this.handleProjectileMovement();
+  }
+
+  cleanProjectiles() {
+    this.playerProjectiles.forEach(projectile => {
+      if(this.isProjectileOutOfBounds(projectile)) {
+        this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
+        projectile.node.remove();
+      }
+    });
+  }
+
+  handleProjectileMovement() {
+    this.playerProjectiles.forEach(projectile => {
+      projectile.move();
+    });
   }
 
   handleStartGameplay() {
@@ -125,6 +165,7 @@ class Game {
   }
 
   gameplayLoop(instance) {
+    instance.handleProjectiles();
     // console.log(game);
     // if (instance.enemies[0] && instance.player.isColliding(instance.enemies[0])) {
     //   console.log("Collision detected!");
@@ -148,26 +189,31 @@ window.addEventListener("keydown", (event) => {
   // prevent default behavior
   event.preventDefault();
 
-  switch (event.key) {
-    case "w":
+  switch (event.code) {
+    case "KeyW":
       if (game.canEntityMove(game.player, game.player.x, game.player.y - game.player.movementSpeed)) {
         game.player.moveForward();
       }
       break;
-    case "a":
+    case "KeyA":
       if (game.canEntityMove(game.player, game.player.x - game.player.movementSpeed, game.player.y)) {
         game.player.moveLeft();
       }
       break;
-    case "s":
+    case "KeyS":
       if (game.canEntityMove(game.player, game.player.x, game.player.y + game.player.movementSpeed)) {
         game.player.moveBackward();
       }
       break;
-    case "d":
+    case "KeyD":
       if (game.canEntityMove(game.player, game.player.x + game.player.movementSpeed, game.player.y)) {
         game.player.moveRight();
       }
+      break;
+    case "Space":
+      let playerProjectile = game.player.shoot();
+      game.spawnProjectile(playerProjectile);
+      console.log(playerProjectile);
       break;
   }
 });

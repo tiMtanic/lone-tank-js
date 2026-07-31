@@ -8,24 +8,4 @@ class Player extends GameEntity {
 
     super(width, height, color, movementSpeed, maxX, maxY);
   }
-
-  moveForward() {
-    this.y -= this.movementSpeed;
-    this.node.style.top = `${this.y}px`;
-  }
-
-  moveBackward() {
-    this.y += this.movementSpeed;
-    this.node.style.top = `${this.y}px`;
-  }
-
-  moveLeft() {
-    this.x -= this.movementSpeed;
-    this.node.style.left = `${this.x}px`;
-  }
-
-  moveRight() {
-      this.x += this.movementSpeed;
-    this.node.style.left = `${this.x}px`;
-  }
 }
