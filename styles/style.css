@@ -53,6 +53,6 @@ body {
   padding: 32px;
 }
 
-#gameplay-screen, #game-over-screen, #game-win-screen {
+#game-start-screen, #gameplay-screen, #game-over-screen, #game-win-screen {
   display: none;
 }
