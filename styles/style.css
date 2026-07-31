@@ -45,14 +45,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ffffff;
+  background-color: #444444;
   width: 500px;
   height: 600px;
 }
 
 .main-content-container {
   display: flex;
-  border: 1px solid #ffffff;
+  background-color: #222222;
   width: 500px;
   height: 500px;
 }
@@ -75,7 +75,7 @@ body {
   position: relative;
   /* overflow: hidden; */
   user-select: none;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
 #gameplay-container * {

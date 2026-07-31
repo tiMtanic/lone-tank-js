@@ -65,33 +65,29 @@ class Game {
     gameWinScreenNode.style.display = "flex";
   }
 
-  getPlayer() {
-    if (!this.player) {
-      this.player = new Player();
-    }
-
-    return this.player;
-  }
-
   spawnPlayer() {
-    const playerObj = this.getPlayer();
+    // Calculate the spawning point for the player (The exact middle of the gameplay-container.)
+    // and set the initial position.
+    this.player.x =
+      gameplayContainerNode.offsetWidth / 2 - this.player.width / 2;
+    this.player.y =
+      gameplayContainerNode.offsetHeight / 2 - this.player.height / 2;
+    this.player.playerNode.style.left = `${this.player.x}px`;
+    this.player.playerNode.style.top = `${this.player.y}px`;
 
-    // Calculate the spawning point for the player
-    // (The exact middle of the gameplay-container.)
-    playerObj.playerNode.style.left = `${gameplayContainerNode.offsetWidth / 2 - playerObj.width / 2}px`;
-    playerObj.playerNode.style.top = `${gameplayContainerNode.offsetHeight / 2 - playerObj.height / 2}px`;
-
-    gameplayContainerNode.append(playerObj.playerNode);
+    gameplayContainerNode.append(this.player.playerNode);
   }
 
   handleStartGameplay() {
+    this.player = new Player(
+      gameplayContainerNode.offsetWidth,
+      gameplayContainerNode.offsetHeight,
+    );
     this.spawnPlayer();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60);
   }
 
-  gameplayLoop() {
-    
-  }
+  gameplayLoop() {}
 }
 
 // Init new game on load
@@ -100,4 +96,28 @@ let game = new Game("start");
 // Event Listeners
 startButtonNode.addEventListener("click", () => {
   game.changeGameState("gameplay");
+});
+
+window.addEventListener("keydown", (event) => {
+  if (!game.player) {
+    return;
+  }
+
+  // prevent default behavior
+  event.preventDefault();
+
+  switch (event.key) {
+    case "w":
+      game.player.moveForward();
+      break;
+    case "a":
+      game.player.moveLeft();
+      break;
+    case "s":
+      game.player.moveBackward();
+      break;
+    case "d":
+      game.player.moveRight();
+      break;
+  }
 });
