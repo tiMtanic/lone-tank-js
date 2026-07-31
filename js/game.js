@@ -17,6 +17,9 @@ class Game {
     this.player = null;
     this.enemies = [];
     this.gameplayLoopIntervalId = null;
+    this.maxX;
+    this.maxY;
+
     this.changeGameState(initialState);
   }
 
@@ -69,10 +72,8 @@ class Game {
   spawnPlayer() {
     // Calculate the spawning point for the player (The exact middle of the gameplay-container.)
     // and set the initial position.
-    this.player.x =
-      gameplayContainerNode.offsetWidth / 2 - this.player.width / 2;
-    this.player.y =
-      gameplayContainerNode.offsetHeight / 2 - this.player.height / 2;
+    this.player.x = this.maxX / 2 - this.player.width / 2;
+    this.player.y = this.maxY / 2 - this.player.height / 2;
     this.player.node.style.left = `${this.player.x}px`;
     this.player.node.style.top = `${this.player.y}px`;
 
@@ -81,8 +82,8 @@ class Game {
 
   spawnEnemy() {
     const enemy = new Enemy(
-      gameplayContainerNode.offsetWidth,
-      gameplayContainerNode.offsetHeight,
+      this.maxX,
+      this.maxY
     );
 
     enemy.x = 0;
@@ -94,17 +95,41 @@ class Game {
     gameplayContainerNode.append(enemy.node);
   }
 
+  canEntityMove(entity, desiredX, desiredY) {
+    //Check if the entity will be inside bounds of the gameplay area
+    if (desiredY < 0) {
+      return false;
+    } else if (desiredY > this.maxY - entity.height) {
+      return false;
+    } else if (desiredX < 0) {
+      return false;
+    } else if (desiredX > this.maxX - entity.width) {
+      return false;
+    }
+
+    return true;
+  }
+
   handleStartGameplay() {
+    // Set gameplay area bounds
+    this.maxX = gameplayContainerNode.offsetWidth;
+    this.maxY = gameplayContainerNode.offsetHeight;
+
     this.player = new Player(
-      gameplayContainerNode.offsetWidth,
-      gameplayContainerNode.offsetHeight,
+      this.maxX,
+      this.maxY
     );
     this.spawnPlayer();
     this.spawnEnemy();
-    this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60);
+    this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60, this);
   }
 
-  gameplayLoop() {}
+  gameplayLoop(instance) {
+    // console.log(game);
+    // if (instance.enemies[0] && instance.player.isColliding(instance.enemies[0])) {
+    //   console.log("Collision detected!");
+    // }
+  }
 }
 
 // Init new game on load
@@ -125,16 +150,24 @@ window.addEventListener("keydown", (event) => {
 
   switch (event.key) {
     case "w":
-      game.player.moveForward();
+      if (game.canEntityMove(game.player, game.player.x, game.player.y - game.player.movementSpeed)) {
+        game.player.moveForward();
+      }
       break;
     case "a":
-      game.player.moveLeft();
+      if (game.canEntityMove(game.player, game.player.x - game.player.movementSpeed, game.player.y)) {
+        game.player.moveLeft();
+      }
       break;
     case "s":
-      game.player.moveBackward();
+      if (game.canEntityMove(game.player, game.player.x, game.player.y + game.player.movementSpeed)) {
+        game.player.moveBackward();
+      }
       break;
     case "d":
-      game.player.moveRight();
+      if (game.canEntityMove(game.player, game.player.x + game.player.movementSpeed, game.player.y)) {
+        game.player.moveRight();
+      }
       break;
   }
 });

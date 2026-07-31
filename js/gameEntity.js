@@ -18,4 +18,17 @@ class GameEntity {
     // Gameplay Properties
     this.movementSpeed = movementSpeed;
   }
+
+  isColliding(otherEntity) {
+    if (!otherEntity) {
+      return false;
+    }
+
+    return (
+      this.x < otherEntity.x + otherEntity.width &&
+      this.x + this.width > otherEntity.x &&
+      this.y < otherEntity.y + otherEntity.height &&
+      this.y + this.height > otherEntity.y
+    );
+  }
 }
