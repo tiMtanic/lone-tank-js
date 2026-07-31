@@ -1,5 +1,5 @@
 class Projectile {
-  constructor(x, y, width, height, color, direction, speed) {
+  constructor(x, y, width, height, color, direction, speed, damage) {
     // Dimensions
     this.x = x;
     this.y = y;
@@ -8,6 +8,7 @@ class Projectile {
     this.color = color;
     this.direction = direction;
     this.projectileSpeed = speed;
+    this.damage = damage;
 
     // Create projectile node
     this.node = document.createElement("div");

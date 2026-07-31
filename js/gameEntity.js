@@ -1,5 +1,5 @@
 class GameEntity {
-  constructor(width, height, color, movementSpeed, maxX, maxY) {
+  constructor(width, height, color, healt, movementSpeed, maxX, maxY) {
     // Dimensions
     this.x = 0;
     this.y = 0;
@@ -16,14 +16,16 @@ class GameEntity {
     this.node.style.width = `${this.width}px`;
     this.node.style.height = `${this.height}px`;
 
+    // Gameplay Properties
+    this.health = 100;
+    this.movementSpeed = movementSpeed;
+
     // Projectile Properties
     this.projectileWidth = 5;
     this.projectileHeight = 5;
     this.projectileSpeed = 5;
     this.projectileColor = "red";
-
-    // Gameplay Properties
-    this.movementSpeed = movementSpeed;
+    this.projectileDamage = 5;
   }
 
   isColliding(otherEntity) {
@@ -64,6 +66,12 @@ class GameEntity {
   }
 
   shoot() {
-    return new Projectile(this.x + this.width / 2 - this.projectileWidth / 2, this.y + this.height / 2 - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, this.direction, this.projectileSpeed);
+    return new Projectile(this.x + this.width / 2 - this.projectileWidth / 2, this.y + this.height / 2 - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, this.direction, this.projectileSpeed, this.projectileDamage);
+  }
+
+  takeDamage(amount) {
+    this.health -= amount;
+    console.log("Damage:", amount);
+    console.log("Health:", this.health);
   }
 }

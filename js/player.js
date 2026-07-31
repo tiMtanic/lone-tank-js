@@ -5,7 +5,8 @@ class Player extends GameEntity {
     const height = 40;
     const color = "blue";
     const movementSpeed = 5;
+    const health = 100;
 
-    super(width, height, color, movementSpeed, maxX, maxY);
+    super(width, height, color, health, movementSpeed, maxX, maxY);
   }
 }

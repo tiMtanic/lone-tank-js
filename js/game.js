@@ -70,6 +70,22 @@ class Game {
     gameWinScreenNode.style.display = "flex";
   }
 
+  canEntityMove(entity, desiredX, desiredY) {
+    //Check if the entity will be inside bounds of the gameplay area
+    if (desiredY < 0) {
+      return false;
+    } else if (desiredY > this.maxY - entity.height) {
+      return false;
+    } else if (desiredX < 0) {
+      return false;
+    } else if (desiredX > this.maxX - entity.width) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Player logic
   spawnPlayer() {
     // Calculate the spawning point for the player (The exact middle of the gameplay-container.)
     // and set the initial position.
@@ -81,6 +97,17 @@ class Game {
     gameplayContainerNode.append(this.player.node);
   }
 
+  handlePlayer() {
+    this.checkPlayerHealth();
+  }
+
+  checkPlayerHealth() {
+    if (this.player.health <= 0) {
+      this.changeGameState("gameover");
+    }
+  }
+
+  // Enemy logic
   spawnEnemy() {
     const enemy = new Enemy(
       this.maxX,
@@ -96,24 +123,32 @@ class Game {
     gameplayContainerNode.append(enemy.node);
   }
 
+  despawnEnemy(enemy) {
+    this.enemies.splice(this.enemies.indexOf(enemy), 1);
+    enemy.node.remove();
+  }
+
+  handleEnemies() {
+    this.cleanEnemies();
+  }
+
+  cleanEnemies() {
+    this.enemies.forEach(enemy => {
+      if (enemy.health <= 0) {
+        this.despawnEnemy(enemy);
+      }
+    });
+  }
+
+  // Projectile logic
   spawnProjectile(projectile) {
     this.playerProjectiles.push(projectile);
     gameplayContainerNode.append(projectile.node);
   }
 
-  canEntityMove(entity, desiredX, desiredY) {
-    //Check if the entity will be inside bounds of the gameplay area
-    if (desiredY < 0) {
-      return false;
-    } else if (desiredY > this.maxY - entity.height) {
-      return false;
-    } else if (desiredX < 0) {
-      return false;
-    } else if (desiredX > this.maxX - entity.width) {
-      return false;
-    }
-
-    return true;
+  despawnProjectile(projectile) {
+    this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
+    projectile.node.remove();
   }
 
   isProjectileOutOfBounds(projectile) {
@@ -133,13 +168,13 @@ class Game {
   handleProjectiles() {
     this.cleanProjectiles();
     this.handleProjectileMovement();
+    this.handleProjectileDamage();
   }
 
   cleanProjectiles() {
     this.playerProjectiles.forEach(projectile => {
       if(this.isProjectileOutOfBounds(projectile)) {
-        this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
-        projectile.node.remove();
+        this.despawnProjectile(projectile);
       }
     });
   }
@@ -150,6 +185,18 @@ class Game {
     });
   }
 
+  handleProjectileDamage() {
+    this.playerProjectiles.forEach(projectile => {
+      this.enemies.forEach(enemy => {
+        if (enemy.isColliding(projectile)) {
+          this.despawnProjectile(projectile);
+          enemy.takeDamage(projectile.damage);
+        }
+      });
+    });
+  }
+  
+  // Gameplay logic
   handleStartGameplay() {
     // Set gameplay area bounds
     this.maxX = gameplayContainerNode.offsetWidth;
@@ -166,6 +213,8 @@ class Game {
 
   gameplayLoop(instance) {
     instance.handleProjectiles();
+    instance.handleEnemies();
+    instance.handlePlayer();
     // console.log(game);
     // if (instance.enemies[0] && instance.player.isColliding(instance.enemies[0])) {
     //   console.log("Collision detected!");
@@ -213,7 +262,7 @@ window.addEventListener("keydown", (event) => {
     case "Space":
       let playerProjectile = game.player.shoot();
       game.spawnProjectile(playerProjectile);
-      console.log(playerProjectile);
+      game.player.takeDamage(10);
       break;
   }
 });
