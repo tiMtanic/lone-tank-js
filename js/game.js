@@ -15,6 +15,7 @@ const restartButtonOnWinNode =
 class Game {
   constructor(initialState) {
     this.player = null;
+    this.enemies = [];
     this.gameplayLoopIntervalId = null;
     this.changeGameState(initialState);
   }
@@ -72,10 +73,25 @@ class Game {
       gameplayContainerNode.offsetWidth / 2 - this.player.width / 2;
     this.player.y =
       gameplayContainerNode.offsetHeight / 2 - this.player.height / 2;
-    this.player.playerNode.style.left = `${this.player.x}px`;
-    this.player.playerNode.style.top = `${this.player.y}px`;
+    this.player.node.style.left = `${this.player.x}px`;
+    this.player.node.style.top = `${this.player.y}px`;
 
-    gameplayContainerNode.append(this.player.playerNode);
+    gameplayContainerNode.append(this.player.node);
+  }
+
+  spawnEnemy() {
+    const enemy = new Enemy(
+      gameplayContainerNode.offsetWidth,
+      gameplayContainerNode.offsetHeight,
+    );
+
+    enemy.x = 0;
+    enemy.y = 0;
+    enemy.node.style.left = `${enemy.x}px`;
+    enemy.node.style.top = `${enemy.y}px`;
+
+    this.enemies.push(enemy);
+    gameplayContainerNode.append(enemy.node);
   }
 
   handleStartGameplay() {
@@ -84,6 +100,7 @@ class Game {
       gameplayContainerNode.offsetHeight,
     );
     this.spawnPlayer();
+    this.spawnEnemy();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60);
   }
 

@@ -1,22 +1,12 @@
-class Player {
+class Player extends GameEntity {
   constructor(maxX, maxY) {
-    // Dimensions
-    this.x = 0;
-    this.y = 0;
-    this.maxX = maxX;
-    this.maxY = maxY;
-    this.width = 40;
-    this.height = 40;
+    // Set Game Entity Properties
+    const width = 40;
+    const height = 40;
+    const color = "blue";
+    const movementSpeed = 5;
 
-    // Create Player Node
-    this.playerNode = document.createElement("div");
-    this.playerNode.style.position = "absolute";
-    this.playerNode.style.backgroundColor = "blue";
-    this.playerNode.style.width = `${this.width}px`;
-    this.playerNode.style.height = `${this.height}px`;
-
-    // Player Gameplay Properties
-    this.movementSpeed = 5;
+    super(width, height, color, movementSpeed, maxX, maxY);
   }
 
   moveForward() {
@@ -25,7 +15,7 @@ class Player {
     }
 
     this.y -= this.movementSpeed;
-    this.playerNode.style.top = `${this.y}px`;
+    this.node.style.top = `${this.y}px`;
   }
 
   moveBackward() {
@@ -34,7 +24,7 @@ class Player {
     }
 
     this.y += this.movementSpeed;
-    this.playerNode.style.top = `${this.y}px`;
+    this.node.style.top = `${this.y}px`;
   }
 
   moveLeft() {
@@ -43,7 +33,7 @@ class Player {
     }
 
     this.x -= this.movementSpeed;
-    this.playerNode.style.left = `${this.x}px`;
+    this.node.style.left = `${this.x}px`;
   }
 
   moveRight() {
@@ -52,6 +42,6 @@ class Player {
     }
 
     this.x += this.movementSpeed;
-    this.playerNode.style.left = `${this.x}px`;
+    this.node.style.left = `${this.x}px`;
   }
 }
