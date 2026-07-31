@@ -12,8 +12,9 @@ const restartButtonOnWinNode =
   gameWinScreenNode.querySelector("#restart-game-btn");
 
 class Game {
-  constructor() {
-    this.changeGameState("start");
+  constructor(initialState) {
+    this.gameplayLoopIntervalId = null;
+    this.changeGameState(initialState);
   }
 
   changeGameState(state) {
@@ -23,6 +24,7 @@ class Game {
         break;
       case "gameplay":
         this.showGameplayScreen();
+        this.handleStartGameplay();
         break;
       case "gameover":
         this.showGameOverScreen();
@@ -60,10 +62,18 @@ class Game {
     gameOverScreenNode.style.display = "none";
     gameWinScreenNode.style.display = "flex";
   }
+
+  handleStartGameplay() {
+    this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60);
+  }
+
+  gameplayLoop() {
+    
+  }
 }
 
 // Init new game on load
-let game = new Game();
+let game = new Game("start");
 
 startButtonNode.addEventListener("click", () => {
   game.changeGameState("gameplay");
