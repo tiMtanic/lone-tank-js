@@ -4,6 +4,9 @@ const gameplayScreenNode = document.querySelector("#gameplay-screen");
 const gameOverScreenNode = document.querySelector("#game-over-screen");
 const gameWinScreenNode = document.querySelector("#game-win-screen");
 const gameplayContainerNode = document.querySelector("#gameplay-container");
+const healthBarNode = document.querySelector("#health-bar");
+const currentHealthNode = document.querySelector("#current-health");
+const maxHealthNode = document.querySelector("#max-health");
 
 // Buttons
 const startButtonNode = gameStartScreenNode.querySelector("#start-game-btn");
@@ -14,6 +17,7 @@ const restartButtonOnWinNode =
 
 class Game {
   constructor(initialState) {
+    this.state;
     this.player = null;
     this.enemies = [];
     this.playerProjectiles = [];
@@ -35,11 +39,20 @@ class Game {
         break;
       case "gameover":
         this.showGameOverScreen();
+        this.endGameplay();
         break;
       case "gamewin":
         this.showGameWinScreen();
+        this.endGameplay();
         break;
     }
+
+    this.state = state;
+  }
+
+  endGameplay() {
+    clearInterval(this.gameplayLoopIntervalId);
+    gameplayContainerNode.innerHTML = "";
   }
 
   showGameStartScreen() {
@@ -104,6 +117,7 @@ class Game {
   checkPlayerHealth() {
     if (this.player.health <= 0) {
       this.changeGameState("gameover");
+      console.log("GAME OVER!");
     }
   }
 
@@ -226,12 +240,12 @@ class Game {
 let game = new Game("start");
 
 // Event Listeners
-startButtonNode.addEventListener("click", () => {
-  game.changeGameState("gameplay");
-});
+startButtonNode.addEventListener("click", () => game.changeGameState("gameplay"));
+restartButtonOnGameOverNode.addEventListener("click", () => game = new Game("gameplay"));
+restartButtonOnWinNode.addEventListener("click", () => game = new Game("gameplay"));
 
 window.addEventListener("keydown", (event) => {
-  if (!game.player) {
+  if (!game.player || game.state !== "gameplay") {
     return;
   }
 
@@ -262,7 +276,6 @@ window.addEventListener("keydown", (event) => {
     case "Space":
       let playerProjectile = game.player.shoot();
       game.spawnProjectile(playerProjectile);
-      game.player.takeDamage(10);
       break;
   }
 });
