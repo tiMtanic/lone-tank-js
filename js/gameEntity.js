@@ -7,7 +7,8 @@ class GameEntity {
     this.maxY = maxY;
     this.width = width;
     this.height = height;
-    this.direction = [0, -1]; // Upwards Vector
+    this.lookDirection = [0, -1];
+    this.movementDirection = [0, 0];
 
     // Create entity node
     this.node = document.createElement("div");
@@ -23,7 +24,7 @@ class GameEntity {
     // Projectile Properties
     this.projectileWidth = 5;
     this.projectileHeight = 5;
-    this.projectileSpeed = 5;
+    this.projectileSpeed = 500;
     this.projectileColor = "red";
     this.projectileDamage = 5;
   }
@@ -41,32 +42,15 @@ class GameEntity {
     );
   }
 
-  moveForward() {
-    this.y -= this.movementSpeed;
-    this.node.style.top = `${this.y}px`;
-    this.direction = [0, -1];
-  }
-
-  moveBackward() {
-    this.y += this.movementSpeed;
-    this.node.style.top = `${this.y}px`;
-    this.direction = [0, 1];
-  }
-
-  moveLeft() {
-    this.x -= this.movementSpeed;
+  moveTo(newX, newY) {
+    this.x = newX;
+    this.y = newY;
     this.node.style.left = `${this.x}px`;
-    this.direction = [-1, 0];
-  }
-
-  moveRight() {
-    this.x += this.movementSpeed;
-    this.node.style.left = `${this.x}px`;
-    this.direction = [1, 0];
+    this.node.style.top = `${this.y}px`;
   }
 
   shoot() {
-    return new Projectile(this.x + this.width / 2 - this.projectileWidth / 2, this.y + this.height / 2 - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, this.direction, this.projectileSpeed, this.projectileDamage);
+    return new Projectile(this.x + this.width / 2 - this.projectileWidth / 2, this.y + this.height / 2 - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.projectileDamage);
   }
 
   takeDamage(amount) {

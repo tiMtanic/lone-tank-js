@@ -20,9 +20,9 @@ class Projectile {
     this.node.style.height = `${this.height}px`;
   }
 
-  move() {
-    this.x = this.x + this.projectileSpeed * this.direction[0];
-    this.y = this.y + this.projectileSpeed * this.direction[1];
+  move(deltaTime) {
+    this.x = this.x + this.projectileSpeed * this.direction[0] / 1000 * deltaTime;
+    this.y = this.y + this.projectileSpeed * this.direction[1] / 1000 * deltaTime;
     this.updateNodePosition();
   }
 

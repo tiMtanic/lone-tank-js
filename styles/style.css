@@ -87,6 +87,7 @@ h1 {
   /* overflow: hidden; */
   user-select: none;
   /* box-sizing: border-box; */
+  cursor: crosshair;
 }
 
 #gameplay-container * {

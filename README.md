@@ -28,6 +28,16 @@ Photoshop
 
 ### Resources Used
 
+[MDN Web Docs](https://developer.mozilla.org/en-US/)\
+[W3Schools](https://www.w3schools.com/)\
+[StackOverflow](https://stackoverflow.com/)\
+[Micro5 @ Google Fonts](https://fonts.google.com/specimen/Micro+5?preview.script=Latn) - [OFL License](https://fonts.google.com/specimen/Micro+5/license?preview.script=Latn) 
+
+### AI Usage
+
+AI was purely used to tackle problems in coding and math. Also AI was used to generate assets.\
+Every prompt used is documented in the [AI-USAGE.md](./AI-USAGE.md) file.
+
 ### Wireframes
 
 ![Game Start Wireframe](./wireframes/wireframe-game-start.png "Game Start")

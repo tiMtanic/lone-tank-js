@@ -19,11 +19,13 @@ class Game {
   constructor(initialState) {
     this.state;
     this.player = null;
+    this.playerController = new PlayerController();
     this.enemies = [];
     this.playerProjectiles = [];
     this.gameplayLoopIntervalId = null;
     this.maxX;
     this.maxY;
+    this.timePreviousTick;
 
     this.changeGameState(initialState);
   }
@@ -110,8 +112,9 @@ class Game {
     gameplayContainerNode.append(this.player.node);
   }
 
-  handlePlayer() {
+  handlePlayer(deltaTime) {
     this.checkPlayerHealth();
+    this.handlePlayerMovement(deltaTime);
   }
 
   checkPlayerHealth() {
@@ -119,6 +122,48 @@ class Game {
       this.changeGameState("gameover");
       console.log("GAME OVER!");
     }
+  }
+
+  handlePlayerMovement(deltaTime) {
+    if (this.playerController.keyboardKeys.KeyW.isPressed) {
+      game.player.movementDirection[1] = -1;
+      game.player.lookDirection[1] = -1;
+    } else if(this.playerController.keyboardKeys.KeyS.isPressed) {
+      game.player.movementDirection[1] = 1;
+      game.player.lookDirection[1] = 1;
+    } else {
+      game.player.movementDirection[1] = 0;
+      
+      if (game.player.movementDirection[0] !== 0) {
+        game.player.lookDirection[1] = 0;
+      }
+    }
+
+    if (this.playerController.keyboardKeys.KeyA.isPressed) {
+      game.player.movementDirection[0] = -1;
+      game.player.lookDirection[0] = -1;
+    } else if (this.playerController.keyboardKeys.KeyD.isPressed) {
+      game.player.movementDirection[0] = 1;
+      game.player.lookDirection[0] = 1;
+    } else {
+      game.player.movementDirection[0] = 0;
+
+      if (game.player.movementDirection[1] !== 0) {
+        game.player.lookDirection[0] = 0;
+      }
+    }
+
+    const desiredX = game.player.x + game.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
+    const desiredY = game.player.y + game.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
+
+    if (game.canEntityMove(game.player, desiredX, desiredY)) {
+      game.player.moveTo(desiredX, desiredY);
+    }
+  }
+
+  onPlayerShooting() {
+    let playerProjectile = game.player.shoot();
+    this.spawnProjectile(playerProjectile);
   }
 
   // Enemy logic
@@ -142,7 +187,7 @@ class Game {
     enemy.node.remove();
   }
 
-  handleEnemies() {
+  handleEnemies(deltaTime) {
     this.cleanEnemies();
   }
 
@@ -179,9 +224,9 @@ class Game {
     return false;
   }
 
-  handleProjectiles() {
+  handleProjectiles(deltaTime) {
     this.cleanProjectiles();
-    this.handleProjectileMovement();
+    this.handleProjectileMovement(deltaTime);
     this.handleProjectileDamage();
   }
 
@@ -193,9 +238,9 @@ class Game {
     });
   }
 
-  handleProjectileMovement() {
+  handleProjectileMovement(deltaTime) {
     this.playerProjectiles.forEach(projectile => {
-      projectile.move();
+      projectile.move(deltaTime);
     });
   }
 
@@ -221,18 +266,25 @@ class Game {
       this.maxY
     );
     this.spawnPlayer();
+    this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
+    this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
+    this.playerController.registerListeners();
     this.spawnEnemy();
+    this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60, this);
   }
 
+  getDeltaTime() {
+    const deltaTime = Date.now() - this.timePreviousTick;
+    this.timePreviousTick = Date.now();
+    return deltaTime;
+  }
+
   gameplayLoop(instance) {
-    instance.handleProjectiles();
-    instance.handleEnemies();
-    instance.handlePlayer();
-    // console.log(game);
-    // if (instance.enemies[0] && instance.player.isColliding(instance.enemies[0])) {
-    //   console.log("Collision detected!");
-    // }
+    const deltaTime = instance.getDeltaTime();
+    instance.handleProjectiles(deltaTime);
+    instance.handleEnemies(deltaTime);
+    instance.handlePlayer(deltaTime);  
   }
 }
 
@@ -243,39 +295,3 @@ let game = new Game("start");
 startButtonNode.addEventListener("click", () => game.changeGameState("gameplay"));
 restartButtonOnGameOverNode.addEventListener("click", () => game = new Game("gameplay"));
 restartButtonOnWinNode.addEventListener("click", () => game = new Game("gameplay"));
-
-window.addEventListener("keydown", (event) => {
-  if (!game.player || game.state !== "gameplay") {
-    return;
-  }
-
-  // prevent default behavior
-  event.preventDefault();
-
-  switch (event.code) {
-    case "KeyW":
-      if (game.canEntityMove(game.player, game.player.x, game.player.y - game.player.movementSpeed)) {
-        game.player.moveForward();
-      }
-      break;
-    case "KeyA":
-      if (game.canEntityMove(game.player, game.player.x - game.player.movementSpeed, game.player.y)) {
-        game.player.moveLeft();
-      }
-      break;
-    case "KeyS":
-      if (game.canEntityMove(game.player, game.player.x, game.player.y + game.player.movementSpeed)) {
-        game.player.moveBackward();
-      }
-      break;
-    case "KeyD":
-      if (game.canEntityMove(game.player, game.player.x + game.player.movementSpeed, game.player.y)) {
-        game.player.moveRight();
-      }
-      break;
-    case "Space":
-      let playerProjectile = game.player.shoot();
-      game.spawnProjectile(playerProjectile);
-      break;
-  }
-});
