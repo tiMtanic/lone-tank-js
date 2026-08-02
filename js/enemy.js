@@ -4,7 +4,7 @@ class Enemy extends GameEntity {
     const width = 40;
     const height = 40;
     const color = "red";
-    const movementSpeed = 5;
+    const movementSpeed = 50;
     const health = 10;
 
     super(width, height, color, health, movementSpeed, maxX, maxY);

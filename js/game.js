@@ -153,11 +153,11 @@ class Game {
       }
     }
 
-    const desiredX = game.player.x + game.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
-    const desiredY = game.player.y + game.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
+    const desiredX = this.player.x + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
+    const desiredY = this.player.y + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
 
-    if (game.canEntityMove(game.player, desiredX, desiredY)) {
-      game.player.moveTo(desiredX, desiredY);
+    if (this.canEntityMove(this.player, desiredX, desiredY)) {
+      this.player.moveTo(desiredX, desiredY);
     }
   }
 
@@ -167,14 +167,14 @@ class Game {
   }
 
   // Enemy logic
-  spawnEnemy() {
+  spawnEnemy(x, y) {
     const enemy = new Enemy(
       this.maxX,
       this.maxY
     );
 
-    enemy.x = 0;
-    enemy.y = 0;
+    enemy.x = x;
+    enemy.y = y;
     enemy.node.style.left = `${enemy.x}px`;
     enemy.node.style.top = `${enemy.y}px`;
 
@@ -187,8 +187,23 @@ class Game {
     enemy.node.remove();
   }
 
+  handleEnemyMovement(deltaTime) {
+    this.enemies.forEach(enemy => {
+      enemy.movementDirection = getNormalizedDirectionVector([enemy.x, enemy.y], [this.player.x, this.player.y]);
+      enemy.lookDirection = enemy.movementDirection;
+
+      const desiredX = enemy.x + enemy.movementSpeed / 1000 * deltaTime * enemy.movementDirection[0];
+      const desiredY = enemy.y + enemy.movementSpeed / 1000 * deltaTime * enemy.movementDirection[1];
+
+      if (this.canEntityMove(enemy, desiredX, desiredY)) {
+        enemy.moveTo(desiredX, desiredY);
+      }
+    });
+  }
+
   handleEnemies(deltaTime) {
     this.cleanEnemies();
+    this.handleEnemyMovement(deltaTime);
   }
 
   cleanEnemies() {
@@ -269,7 +284,8 @@ class Game {
     this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
     this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
     this.playerController.registerListeners();
-    this.spawnEnemy();
+    this.spawnEnemy(0, 0);
+    this.spawnEnemy(50, 0);
     this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60, this);
   }

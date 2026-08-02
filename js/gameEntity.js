@@ -18,7 +18,7 @@ class GameEntity {
     this.node.style.height = `${this.height}px`;
 
     // Gameplay Properties
-    this.health = 100;
+    this.health = 30;
     this.movementSpeed = movementSpeed;
 
     // Projectile Properties
@@ -26,7 +26,7 @@ class GameEntity {
     this.projectileHeight = 5;
     this.projectileSpeed = 500;
     this.projectileColor = "red";
-    this.projectileDamage = 5;
+    this.projectileDamage = 10;
   }
 
   isColliding(otherEntity) {
