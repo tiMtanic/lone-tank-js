@@ -207,9 +207,23 @@ class Game {
     });
   }
 
+  handleEnemyAttacks(deltaTime) {
+    this.enemies.forEach(enemy => {
+      const damage = enemy.handleAttack(this.player);
+
+      if(damage > 0) {
+        this.player.takeDamage(damage);
+        console.log("Damage to player:", damage);
+        console.log("Player health:", this.player.health);
+      }
+
+    });
+  }
+
   handleEnemies(deltaTime) {
     this.cleanEnemies();
     this.handleEnemyMovement(deltaTime);
+    this.handleEnemyAttacks(deltaTime);
   }
 
   cleanEnemies() {

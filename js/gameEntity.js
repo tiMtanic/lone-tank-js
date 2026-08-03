@@ -1,5 +1,5 @@
 class GameEntity {
-  constructor(width, height, color, healt, movementSpeed, maxX, maxY) {
+  constructor(width, height, color, health, movementSpeed, maxX, maxY) {
     // Dimensions
     this.x = 0;
     this.y = 0;
@@ -12,6 +12,7 @@ class GameEntity {
     this.movementDirection = [0, 0];
     this.attackSpeed = 1.00;
     this.attackCooldown = 0;
+    this.attackType = "shooting";
 
     // Create entity node
     this.node = document.createElement("div");
@@ -24,7 +25,8 @@ class GameEntity {
     this.node.style.height = `${this.height}px`;
 
     // Gameplay Properties
-    this.health = 30;
+    this.health = health;
+    this.maxHealth = health;
     this.movementSpeed = movementSpeed;
 
     // Projectile Properties
@@ -33,7 +35,7 @@ class GameEntity {
     this.projectileHeight = 20;
     this.projectileSpeed = 500;
     this.projectileColor = "red";
-    this.projectileDamage = 10;
+    this.damage = 10;
   }
 
   isColliding(otherEntity) {
@@ -65,13 +67,13 @@ class GameEntity {
 
     const projectileSpawnNodePosition = getGameplayPosition(this.projectileSpawnNode);
 
-    return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight/ 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.projectileDamage);
+    return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight/ 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.damage);
   }
 
   takeDamage(amount) {
     this.health -= amount;
-    console.log("Damage:", amount);
-    console.log("Health:", this.health);
+    // console.log("Damage:", amount);
+    // console.log("Health:", this.health);
   }
 
   handleCooldowns(deltaTime) {

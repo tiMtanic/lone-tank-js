@@ -10,7 +10,7 @@ class Player extends GameEntity {
     super(width, height, color, health, movementSpeed, maxX, maxY);
 
     this.attackSpeed = 0.25;
-    
+
     this.turretWidth = this.height * 1.4;
     this.turretHeight = this.height * 1.4;
     this.turretNode = document.createElement("div");
@@ -39,5 +39,17 @@ class Player extends GameEntity {
     this.node.append(this.turretNode);
     this.turretNode.append(this.gunNode);
     this.turretNode.append(this.projectileSpawnNode);
+    this.updateHealthBarUI();
+  }
+
+  takeDamage(amount) {
+    super.takeDamage(amount);
+    this.updateHealthBarUI();
+  }
+
+  updateHealthBarUI() {
+    currentHealthNode.innerText = Math.ceil(this.health);
+    maxHealthNode.innerText = this.maxHealth;
+    healthBarNode.style.width = `${this.health / this.maxHealth * 100}%`;
   }
 }
