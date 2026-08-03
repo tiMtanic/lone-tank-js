@@ -90,8 +90,9 @@ h1 {
   cursor: crosshair;
 }
 
-#gameplay-container * {
+#gameplay-container *, #top-ui *, #bottom-ui * {
   pointer-events: none;
+  user-select: none;
 }
 
 #top-ui, #bottom-ui {

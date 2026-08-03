@@ -110,6 +110,7 @@ class Game {
     this.player.node.style.top = `${this.player.y}px`;
 
     gameplayContainerNode.append(this.player.node);
+    this.player.init();
   }
 
   handlePlayer(deltaTime) {
@@ -162,7 +163,7 @@ class Game {
   }
 
   onPlayerShooting() {
-    let playerProjectile = game.player.shoot();
+    let playerProjectile = this.player.shoot();
     this.spawnProjectile(playerProjectile);
   }
 
@@ -216,6 +217,7 @@ class Game {
 
   // Projectile logic
   spawnProjectile(projectile) {
+    projectile.node.style.transform = "rotate(" + this.player.currentAngle + "deg)";
     this.playerProjectiles.push(projectile);
     gameplayContainerNode.append(projectile.node);
   }
@@ -285,7 +287,8 @@ class Game {
     this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
     this.playerController.registerListeners();
     this.spawnEnemy(0, 0);
-    this.spawnEnemy(50, 0);
+    this.spawnEnemy(300, 0);
+    this.spawnEnemy(300, 400);
     this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60, this);
   }
@@ -301,6 +304,7 @@ class Game {
     instance.handleProjectiles(deltaTime);
     instance.handleEnemies(deltaTime);
     instance.handlePlayer(deltaTime);  
+    instance.playerController.handleTurretRotation(instance.player);
   }
 }
 

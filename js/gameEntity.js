@@ -8,11 +8,16 @@ class GameEntity {
     this.width = width;
     this.height = height;
     this.lookDirection = [0, -1];
+    this.currentAngle = 0;
     this.movementDirection = [0, 0];
+
 
     // Create entity node
     this.node = document.createElement("div");
     this.node.style.position = "absolute";
+    this.node.style.display = "flex";
+    this.node.style.justifyContent = "center";
+    this.node.style.alignItems = "center";
     this.node.style.backgroundColor = color;
     this.node.style.width = `${this.width}px`;
     this.node.style.height = `${this.height}px`;
@@ -22,8 +27,9 @@ class GameEntity {
     this.movementSpeed = movementSpeed;
 
     // Projectile Properties
-    this.projectileWidth = 5;
-    this.projectileHeight = 5;
+    this.projectileSpawnNode;
+    this.projectileWidth = 4;
+    this.projectileHeight = 20;
     this.projectileSpeed = 500;
     this.projectileColor = "red";
     this.projectileDamage = 10;
@@ -50,7 +56,9 @@ class GameEntity {
   }
 
   shoot() {
-    return new Projectile(this.x + this.width / 2 - this.projectileWidth / 2, this.y + this.height / 2 - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.projectileDamage);
+    const projectileSpawnNodePosition = getGameplayPosition(this.projectileSpawnNode);
+
+    return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight/ 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.projectileDamage);
   }
 
   takeDamage(amount) {

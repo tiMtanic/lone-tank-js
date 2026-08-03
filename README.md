@@ -16,7 +16,7 @@ Use the keyboard to control the tank.
 |<kbd>A</kbd>|Drive the tank to left|
 |<kbd>S</kbd>|Drive the tank to right|
 |<kbd>D</kbd>|Drive the tank downward|
-|<kbd>SPACE</kbd>|Shoot in the direction the tank is facing|
+|<kbd>Mouse1</kbd> <kbd>SPACE</kbd>|Shoot in the direction of the mouse cursor|
 
 ## Additional Information
 
