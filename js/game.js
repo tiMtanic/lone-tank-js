@@ -10,11 +10,11 @@ const maxHealthNode = document.querySelector("#max-health");
 const currentLevelNode = document.querySelector("#current-level");
 
 // Buttons
-const startButtonNode = gameStartScreenNode.querySelector("#start-game-btn");
+const startButtonNode = gameStartScreenNode.querySelector(".start-game-btn");
 const restartButtonOnGameOverNode =
-  gameOverScreenNode.querySelector("#restart-game-btn");
+  gameOverScreenNode.querySelector(".restart-game-btn");
 const restartButtonOnWinNode =
-  gameWinScreenNode.querySelector("#restart-game-btn");
+  gameWinScreenNode.querySelector(".restart-game-btn");
 
 class Game {
   constructor(initialState) {

@@ -23,7 +23,7 @@
     <div id="game-start-screen" class="game-screen-container">
       <div class="main-content-container menu-container">
         <h1>LONE TANK</h1>
-        <button id="start-game-btn">START</button>
+        <button class="start-game-btn">START</button>
       </div>
     </div>
 
@@ -47,16 +47,23 @@
     <!-- game over screen -->
     <div id="game-over-screen" class="game-screen-container">
       <div class="main-content-container menu-container">
-        <h1>LONE TANK</h1>
-        <button id="restart-game-btn">RESTART</button>
+        <h1>GAME OVER</h1>
+        <div class="menu-container-main-content">
+          <p>You lost the game, because your tank got destroyed by aliens...<br />
+          Try again by pressing RESTART!</p>
+        </div>
+        <button class="restart-game-btn">RESTART</button>
       </div>
     </div>
 
     <!-- game win screen -->
     <div id="game-win-screen" class="game-screen-container">
       <div class="main-content-container menu-container">
-        <h1>LONE TANK</h1>
-        <button id="restart-game-btn">RESTART</button>
+        <h1>CONGRATULATIONS!</h1>
+        <div class="menu-container-main-content">
+          <p>You successfully eliminated all enemies and won the game. If you want to try it another time, press “RESTART” to restart the game.</p>
+        </div>
+        <button class="restart-game-btn">RESTART</button>
       </div>
     </div>
   </body>

@@ -52,6 +52,18 @@ h1 {
   font-size: 48px;
 }
 
+#game-start-screen h1,
+#game-win-screen h1,
+#game-over-screen h1 {
+  font-size: 100px;
+}
+
+.menu-container-main-content p {
+  font-size: 64px;
+  text-align: center;
+}
+
+
 .game-screen-container {
   display: flex;
   flex-direction: column;
@@ -108,7 +120,7 @@ h1 {
 }
 
 #bottom-ui {
-    justify-content: center;
+  justify-content: center;
 }
 
 #health-bar-container {
@@ -135,3 +147,19 @@ h1 {
   font-size: 28px;
 }
 
+.start-game-btn,
+.restart-game-btn {
+  width: 256px;
+  height: 64px;
+  font-size: 48px;
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+}
+
+.restart-game-btn {
+  background-color: #FF0000;
+}
+
+.start-game-btn {
+  background-color: #00EE00;
+}
