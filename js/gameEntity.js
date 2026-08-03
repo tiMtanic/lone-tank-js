@@ -71,9 +71,11 @@ class GameEntity {
   }
 
   takeDamage(amount) {
-    this.health -= amount;
-    // console.log("Damage:", amount);
-    // console.log("Health:", this.health);
+    if (this.health - amount > 0) {
+      this.health -= amount;
+    } else {
+      this.health = 0;
+    }
   }
 
   handleCooldowns(deltaTime) {

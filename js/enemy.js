@@ -12,8 +12,21 @@ class Enemy extends GameEntity {
     this.attackType = "explode";
   }
 
-  handleAttack(player) {
-    if (this.attackType === "explode" && this.isColliding(player)) {
+  getNextDesiredMovement(target, deltaTime) {
+      this.movementDirection = getNormalizedDirectionVector([this.x, this.y], [target.x, target.y]);
+      this.lookDirection = this.movementDirection;
+
+      const desiredX = this.x + this.movementSpeed / 1000 * deltaTime * this.movementDirection[0];
+      const desiredY = this.y + this.movementSpeed / 1000 * deltaTime * this.movementDirection[1];
+
+      return {
+        desiredX: desiredX,
+        desiredY: desiredY
+      }
+  }
+
+  handleAttack(target) {
+    if (this.attackType === "explode" && this.isColliding(target)) {
       this.health = 0;
       return this.damage;
     }

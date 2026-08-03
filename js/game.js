@@ -7,6 +7,7 @@ const gameplayContainerNode = document.querySelector("#gameplay-container");
 const healthBarNode = document.querySelector("#health-bar");
 const currentHealthNode = document.querySelector("#current-health");
 const maxHealthNode = document.querySelector("#max-health");
+const currentLevelNode = document.querySelector("#current-level");
 
 // Buttons
 const startButtonNode = gameStartScreenNode.querySelector("#start-game-btn");
@@ -26,6 +27,10 @@ class Game {
     this.maxX;
     this.maxY;
     this.timePreviousTick;
+    this.spawnAreaOffset = 50;
+    this.enemiesAmount = 1;
+    this.currentLevel = 0;
+    this.maxLevel = 2;
 
     this.changeGameState(initialState);
   }
@@ -121,7 +126,6 @@ class Game {
   checkPlayerHealth() {
     if (this.player.health <= 0) {
       this.changeGameState("gameover");
-      console.log("GAME OVER!");
     }
   }
 
@@ -173,14 +177,36 @@ class Game {
   }
 
   // Enemy logic
-  spawnEnemy(x, y) {
+  spawnEnemy() {
     const enemy = new Enemy(
       this.maxX,
       this.maxY
     );
 
-    enemy.x = x;
-    enemy.y = y;
+    const spawnDirection = Math.floor(Math.random() * 4);
+    let enemySpawnPosition;
+
+    switch(spawnDirection) {
+      // top
+      case 0:
+        enemySpawnPosition = this.getRandomEnemySpawnPosition(enemy, 0, 0, this.maxX, this.spawnAreaOffset);
+        break;
+      // right
+      case 1:
+        enemySpawnPosition = this.getRandomEnemySpawnPosition(enemy, this.maxX - this.spawnAreaOffset, 0, this.maxX, this.maxY);
+        break;
+      // bottom
+      case 2:
+        enemySpawnPosition = this.getRandomEnemySpawnPosition(enemy, 0, this.maxY - this.spawnAreaOffset, this.maxX, this.maxY);
+        break;
+      // left
+      case 3:
+        enemySpawnPosition = this.getRandomEnemySpawnPosition(enemy, 0, 0, this.spawnAreaOffset, this.maxY);
+        break;
+    }
+
+    enemy.x = enemySpawnPosition.x;
+    enemy.y = enemySpawnPosition.y;
     enemy.node.style.left = `${enemy.x}px`;
     enemy.node.style.top = `${enemy.y}px`;
 
@@ -193,16 +219,39 @@ class Game {
     enemy.node.remove();
   }
 
+  handleEnemySpawning() {
+    if (this.enemies.length === 0) {
+      if(this.currentLevel === this.maxLevel) {
+        this.changeGameState("gamewin");
+        return;
+      }
+
+      this.currentLevel++;
+      this.updateLevelUI();
+
+      for (let i = this.enemiesAmount; i > 0; i--) {
+        this.spawnEnemy();
+      }
+      this.enemiesAmount++;
+    }
+  }
+
+  getRandomEnemySpawnPosition(enemy, minX, minY, maxX, maxY) {
+    const spawnPositionX = Math.floor(minX + Math.random() * (maxX - minX - enemy.width));
+    const spawnPositionY = Math.floor(minY + Math.random() * (maxY - minY - enemy.height));
+
+    return {
+      x: spawnPositionX,
+      y: spawnPositionY
+    }
+  }
+
   handleEnemyMovement(deltaTime) {
     this.enemies.forEach(enemy => {
-      enemy.movementDirection = getNormalizedDirectionVector([enemy.x, enemy.y], [this.player.x, this.player.y]);
-      enemy.lookDirection = enemy.movementDirection;
+      const desiredPosition = enemy.getNextDesiredMovement(this.player, deltaTime);
 
-      const desiredX = enemy.x + enemy.movementSpeed / 1000 * deltaTime * enemy.movementDirection[0];
-      const desiredY = enemy.y + enemy.movementSpeed / 1000 * deltaTime * enemy.movementDirection[1];
-
-      if (this.canEntityMove(enemy, desiredX, desiredY)) {
-        enemy.moveTo(desiredX, desiredY);
+      if (this.canEntityMove(enemy, desiredPosition.desiredX, desiredPosition.desiredY)) {
+        enemy.moveTo(desiredPosition.desiredX, desiredPosition.desiredY);
       }
     });
   }
@@ -213,19 +262,10 @@ class Game {
 
       if(damage > 0) {
         this.player.takeDamage(damage);
-        console.log("Damage to player:", damage);
-        console.log("Player health:", this.player.health);
       }
-
     });
   }
-
-  handleEnemies(deltaTime) {
-    this.cleanEnemies();
-    this.handleEnemyMovement(deltaTime);
-    this.handleEnemyAttacks(deltaTime);
-  }
-
+  
   cleanEnemies() {
     this.enemies.forEach(enemy => {
       if (enemy.health <= 0) {
@@ -234,6 +274,14 @@ class Game {
     });
   }
 
+  handleEnemies(deltaTime) {
+    this.cleanEnemies();
+    this.handleEnemyMovement(deltaTime);
+    this.handleEnemyAttacks(deltaTime);
+    this.handleEnemySpawning();
+  }
+
+
   // Projectile logic
   spawnProjectile(projectile) {
     projectile.node.style.transform = "rotate(" + this.player.currentAngle + "deg)";
@@ -241,9 +289,13 @@ class Game {
     gameplayContainerNode.append(projectile.node);
   }
 
-  despawnProjectile(projectile) {
-    this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
+  removeProjectileNode(projectile) {
     projectile.node.remove();
+  }
+
+  despawnProjectile(projectile) {
+    this.removeProjectileNode(projectile);
+    this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
   }
 
   isProjectileOutOfBounds(projectile) {
@@ -271,6 +323,11 @@ class Game {
       if(this.isProjectileOutOfBounds(projectile)) {
         this.despawnProjectile(projectile);
       }
+
+      if(!this.playerProjectiles.includes(projectile)) {
+        console.log("x");
+        this.removeProjectileNode(projectile);
+      }
     });
   }
 
@@ -281,14 +338,19 @@ class Game {
   }
 
   handleProjectileDamage() {
-    this.playerProjectiles.forEach(projectile => {
-      this.enemies.forEach(enemy => {
+    this.enemies.forEach(enemy => {
+      this.playerProjectiles.forEach(projectile => {
         if (enemy.isColliding(projectile)) {
           this.despawnProjectile(projectile);
           enemy.takeDamage(projectile.damage);
         }
       });
     });
+  }
+
+  // UI logic
+  updateLevelUI() {
+    currentLevelNode.innerText = this.currentLevel;
   }
   
   // Gameplay logic
@@ -305,9 +367,6 @@ class Game {
     //this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
     //this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
     this.playerController.registerListeners();
-    this.spawnEnemy(0, 0);
-    this.spawnEnemy(300, 0);
-    this.spawnEnemy(300, 400);
     this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop.bind(this), 1000 / 60);
   }
