@@ -10,7 +10,8 @@ class GameEntity {
     this.lookDirection = [0, -1];
     this.currentAngle = 0;
     this.movementDirection = [0, 0];
-
+    this.attackSpeed = 1.00;
+    this.attackCooldown = 0;
 
     // Create entity node
     this.node = document.createElement("div");
@@ -56,6 +57,12 @@ class GameEntity {
   }
 
   shoot() {
+    if (this.attackCooldown > 0) {
+      return null;
+    }
+
+    this.attackCooldown = this.attackSpeed * 1000;
+
     const projectileSpawnNodePosition = getGameplayPosition(this.projectileSpawnNode);
 
     return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight/ 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.projectileDamage);
@@ -65,5 +72,9 @@ class GameEntity {
     this.health -= amount;
     console.log("Damage:", amount);
     console.log("Health:", this.health);
+  }
+
+  handleCooldowns(deltaTime) {
+    this.attackCooldown -= deltaTime;
   }
 }

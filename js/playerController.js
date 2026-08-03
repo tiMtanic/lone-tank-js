@@ -17,21 +17,24 @@ class PlayerController {
 
     this.boundHandleKeyDown = this.handleKeyDown.bind(this);
     this.boundHandleKeyUp = this.handleKeyUp.bind(this);
-    this.boundHandleMouse1 = this.handleMouse1.bind(this);
+    this.boundHandleMouse1Down = this.handleMouse1Down.bind(this);
+    this.boundHandleMouse1Up = this.handleMouse1Up.bind(this);
     this.boundHandleMousePosition = this.handleMousePosition.bind(this);
   }
 
   registerListeners() {
     window.addEventListener("keydown", this.boundHandleKeyDown);
     window.addEventListener("keyup", this.boundHandleKeyUp);
-    window.addEventListener("mousedown", this.boundHandleMouse1);
+    window.addEventListener("mousedown", this.boundHandleMouse1Down);
+    window.addEventListener("mouseup", this.boundHandleMouse1Up);
     window.addEventListener("mousemove", this.boundHandleMousePosition)
   }
 
   unregisterListeners() {
     window.removeEventListener("keydown", this.boundHandleKeyDown);
     window.removeEventListener("keyup", this.boundHandleKeyUp);
-    window.removeEventListener("mousedown", this.boundHandleMouse1);
+    window.removeEventListener("mousedown", this.boundHandleMouse1Down);
+    window.removeEventListener("mouseup", this.boundHandleMouse1Up);
     window.removeEventListener("mousemove", this.boundHandleMousePosition)
   }
 
@@ -61,9 +64,23 @@ class PlayerController {
     }
   }
 
-  handleMouse1(event) {
-    if (event.button === 0) {
-      this.mouseKeys.Mouse1.onPressed();
+  handleMouse1Down(event) {
+    if (event.button === 0 && !this.mouseKeys["Mouse1"].isPressed) {
+      this.mouseKeys["Mouse1"].isPressed = true;
+
+      if (this.mouseKeys["Mouse1"].onPressed) {
+        this.mouseKeys["Mouse1"].onPressed();
+      }
+    }
+  }
+
+  handleMouse1Up(event) {
+    if (event.button === 0 && this.mouseKeys["Mouse1"].isPressed) {
+      this.mouseKeys["Mouse1"].isPressed = false;
+
+      if (this.mouseKeys["Mouse1"].onReleased) {
+        this.mouseKeys["Mouse1"].onReleased();
+      }
     }
   }
 
@@ -77,7 +94,7 @@ class PlayerController {
 
   handleMousePosition(event) {
     event.preventDefault();
-    
+
     this.mouseX = event.clientX;
     this.mouseY = event.clientY;
     //console.log(this.mouseX, this.mouseY);

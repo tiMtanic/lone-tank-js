@@ -162,9 +162,14 @@ class Game {
     }
   }
 
-  onPlayerShooting() {
-    let playerProjectile = this.player.shoot();
-    this.spawnProjectile(playerProjectile);
+  handlePlayerShooting() {
+    if (this.playerController.mouseKeys.Mouse1.isPressed || this.playerController.keyboardKeys.Space.isPressed) {
+      let playerProjectile = this.player.shoot();
+
+      if (playerProjectile) {
+        this.spawnProjectile(playerProjectile);
+      }
+    }
   }
 
   // Enemy logic
@@ -283,14 +288,14 @@ class Game {
       this.maxY
     );
     this.spawnPlayer();
-    this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
-    this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
+    //this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
+    //this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
     this.playerController.registerListeners();
     this.spawnEnemy(0, 0);
     this.spawnEnemy(300, 0);
     this.spawnEnemy(300, 400);
     this.timePreviousTick = Date.now();
-    this.gameplayLoopIntervalId = setInterval(this.gameplayLoop, 1000 / 60, this);
+    this.gameplayLoopIntervalId = setInterval(this.gameplayLoop.bind(this), 1000 / 60);
   }
 
   getDeltaTime() {
@@ -299,12 +304,14 @@ class Game {
     return deltaTime;
   }
 
-  gameplayLoop(instance) {
-    const deltaTime = instance.getDeltaTime();
-    instance.handleProjectiles(deltaTime);
-    instance.handleEnemies(deltaTime);
-    instance.handlePlayer(deltaTime);  
-    instance.playerController.handleTurretRotation(instance.player);
+  gameplayLoop() {
+    const deltaTime = this.getDeltaTime();
+    this.handleProjectiles(deltaTime);
+    this.handleEnemies(deltaTime);
+    this.handlePlayer(deltaTime);  
+    this.playerController.handleTurretRotation(this.player);
+    this.player.handleCooldowns(deltaTime);
+    this.handlePlayerShooting();
   }
 }
 

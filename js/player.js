@@ -9,6 +9,8 @@ class Player extends GameEntity {
 
     super(width, height, color, health, movementSpeed, maxX, maxY);
 
+    this.attackSpeed = 0.25;
+    
     this.turretWidth = this.height * 1.4;
     this.turretHeight = this.height * 1.4;
     this.turretNode = document.createElement("div");
