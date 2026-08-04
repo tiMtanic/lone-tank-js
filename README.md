@@ -12,10 +12,10 @@ Use the keyboard to control the tank.
 
 |Key|Action|
 |:----------:|----------|
-|<kbd>W</kbd>|Drive the tank upward|
+|<kbd>W</kbd>|Drive the tank forward|
 |<kbd>A</kbd>|Drive the tank to left|
 |<kbd>S</kbd>|Drive the tank to right|
-|<kbd>D</kbd>|Drive the tank downward|
+|<kbd>D</kbd>|Drive the tank backward|
 |<kbd>Mouse1</kbd> <kbd>SPACE</kbd>|Shoot in the direction of the mouse cursor|
 
 ## Additional Information

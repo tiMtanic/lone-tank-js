@@ -21,6 +21,7 @@ class Game {
     this.state;
     this.player = null;
     this.playerController = new PlayerController();
+    this.levelManager = new LevelManager();
     this.enemies = [];
     this.playerProjectiles = [];
     this.gameplayLoopIntervalId = null;
@@ -29,8 +30,6 @@ class Game {
     this.timePreviousTick;
     this.spawnAreaOffset = 50;
     this.enemiesAmount = 1;
-    this.currentLevel = 0;
-    this.maxLevel = 30;
 
     this.changeGameState(initialState);
   }
@@ -177,8 +176,9 @@ class Game {
   }
 
   // Enemy logic
-  spawnEnemy() {
+  spawnEnemy(enemyConfig) {
     const enemy = new Enemy(
+      enemyConfig,
       this.maxX,
       this.maxY
     );
@@ -221,18 +221,19 @@ class Game {
 
   handleEnemySpawning() {
     if (this.enemies.length === 0) {
-      if(this.currentLevel === this.maxLevel) {
-        this.changeGameState("gamewin");
-        return;
+      if (this.levelManager.isLastWave()){
+        if (!this.levelManager.isLastLevel()) {
+          this.levelManager.startNextLevel();
+          this.updateLevelUI();
+        } else {
+          // If there are no levels left the game is won
+          this.changeGameState("gamewin");
+        }
+      } else {
+        this.levelManager.getNextWave().forEach(enemyConfig => {
+          this.spawnEnemy(enemyConfig);
+        });
       }
-
-      this.currentLevel++;
-      this.updateLevelUI();
-
-      for (let i = this.enemiesAmount; i > 0; i--) {
-        this.spawnEnemy();
-      }
-      this.enemiesAmount++;
     }
   }
 
@@ -345,7 +346,7 @@ class Game {
 
   // UI logic
   updateLevelUI() {
-    currentLevelNode.innerText = this.currentLevel;
+    currentLevelNode.innerText = this.levelManager.currentLevel;
   }
   
   // Gameplay logic
@@ -353,14 +354,14 @@ class Game {
     // Set gameplay area bounds
     this.maxX = gameplayContainerNode.offsetWidth;
     this.maxY = gameplayContainerNode.offsetHeight;
+    this.levelManager.startNextLevel();
+    this.updateLevelUI();
 
     this.player = new Player(
       this.maxX,
       this.maxY
     );
     this.spawnPlayer();
-    //this.playerController.setMouseAction("onPressed", this.onPlayerShooting.bind(this));
-    //this.playerController.setKeyboardAction("Space", "onPressed", this.onPlayerShooting.bind(this));
     this.playerController.registerListeners();
     this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop.bind(this), 1000 / 60);

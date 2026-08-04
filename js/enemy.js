@@ -1,5 +1,5 @@
 class Enemy extends GameEntity {
-  constructor(maxX, maxY) {
+  constructor(enemyConfig, maxX, maxY) {
     // Set Game Entity Properties
     const width = 40;
     const height = 40;
@@ -7,9 +7,9 @@ class Enemy extends GameEntity {
     const movementSpeed = 50;
     const health = 30;
 
-    super(width, height, color, health, movementSpeed, maxX, maxY);
+    super(enemyConfig.width, enemyConfig.height, color, enemyConfig.health, enemyConfig.movementSpeed, maxX, maxY);
 
-    this.attackType = "explode";
+    this.attackType = enemyConfig.attackType;
   }
 
   getNextDesiredMovement(target, deltaTime) {
