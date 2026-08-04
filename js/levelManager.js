@@ -34,17 +34,16 @@ class LevelManager {
 
   generateEnemyConfigs() {
     return {
-      "exploder1": new EnemyConfig("exploder1", 20, 20, "", "", 30, 50, "explode")
+      "exploder1": new EnemyConfig("exploder1", 40, 40, "", "", 30, 50, "exploding", 0, 0),
+      "exploder2": new EnemyConfig("exploder2", 20, 20, "", "", 30, 50, "exploding", 0, 0),
+      "shooter1": new EnemyConfig("shooter1", 40, 40, "", "", 30, 25, "shooting", 2.0, 100),
     };
   }
 
   generateLevels() {
     return {
       0: new Level([
-        [this.enemyConfigs["exploder1"]],
-        [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"]],
-        [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"]],
-        [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"]],
+        [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder2"], this.enemyConfigs["shooter1"]],
         [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"]]
       ]),
       1: new Level([

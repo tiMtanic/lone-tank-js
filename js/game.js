@@ -24,6 +24,7 @@ class Game {
     this.levelManager = new LevelManager();
     this.enemies = [];
     this.playerProjectiles = [];
+    this.enemyProjectiles = [];
     this.gameplayLoopIntervalId = null;
     this.maxX;
     this.maxY;
@@ -143,37 +144,6 @@ class Game {
       this.player.resetMovementVector();
     }
 
-    //////////////////////
-
-
-    // if (this.playerController.keyboardKeys.KeyW.isPressed) {
-    //   game.player.movementDirection[1] = -1;
-    //   game.player.lookDirection[1] = -1;
-    // } else if(this.playerController.keyboardKeys.KeyS.isPressed) {
-    //   game.player.movementDirection[1] = 1;
-    //   game.player.lookDirection[1] = 1;
-    // } else {
-    //   game.player.movementDirection[1] = 0;
-      
-    //   if (game.player.movementDirection[0] !== 0) {
-    //     game.player.lookDirection[1] = 0;
-    //   }
-    // }
-
-    // if (this.playerController.keyboardKeys.KeyA.isPressed) {
-    //   game.player.movementDirection[0] = -1;
-    //   game.player.lookDirection[0] = -1;
-    // } else if (this.playerController.keyboardKeys.KeyD.isPressed) {
-    //   game.player.movementDirection[0] = 1;
-    //   game.player.lookDirection[0] = 1;
-    // } else {
-    //   game.player.movementDirection[0] = 0;
-
-    //   if (game.player.movementDirection[1] !== 0) {
-    //     game.player.lookDirection[0] = 0;
-    //   }
-    // }
-
     const desiredX = this.player.x + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
     const desiredY = this.player.y + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
 
@@ -187,7 +157,7 @@ class Game {
       let playerProjectile = this.player.shoot();
 
       if (playerProjectile) {
-        this.spawnProjectile(playerProjectile);
+        this.spawnPlayerProjectile(playerProjectile);
       }
     }
   }
@@ -199,6 +169,8 @@ class Game {
       this.maxX,
       this.maxY
     );
+
+    enemy.init();
 
     const spawnDirection = Math.floor(Math.random() * 4);
     let enemySpawnPosition;
@@ -275,13 +247,25 @@ class Game {
   }
 
   handleEnemyAttacks(deltaTime) {
-    this.enemies.forEach(enemy => {
-      const damage = enemy.handleAttack(this.player);
+    for(let i = 0; i < this.enemies.length; i++) {
+      // Melee attacks
+      const damage = this.enemies[i].handleMeleeAttack(this.player);
 
       if(damage > 0) {
         this.player.takeDamage(damage);
+        continue;
       }
-    });
+
+      // Shooting
+      const enemyProjectile = this.enemies[i].shoot();
+
+      if (enemyProjectile) {
+        this.spawnEnemyProjectile(this.enemies[i], enemyProjectile);
+      }
+
+      // Cooldowns
+      this.enemies[i].handleCooldowns(deltaTime);
+    }
   }
   
   cleanEnemies() {
@@ -301,19 +285,26 @@ class Game {
 
 
   // Projectile logic
-  spawnProjectile(projectile) {
+  spawnPlayerProjectile(projectile) {
     projectile.node.style.transform = "rotate(" + this.player.currentAimAngle + "deg)";
     this.playerProjectiles.push(projectile);
     gameplayContainerNode.append(projectile.node);
   }
 
-  removeProjectileNode(projectile) {
-    projectile.node.remove();
+  spawnEnemyProjectile(enemy, projectile) {
+    projectile.node.style.transform = "rotate(" + rotationFromDirection(enemy.lookDirection) + "deg)";
+    this.enemyProjectiles.push(projectile);
+    gameplayContainerNode.append(projectile.node);
   }
 
-  despawnProjectile(projectile) {
-    this.removeProjectileNode(projectile);
+  despawnPlayerProjectile(projectile) {
+    projectile.node.remove();
     this.playerProjectiles.splice(this.playerProjectiles.indexOf(projectile), 1);
+  }
+
+  despawnEnemyProjectile(projectile) {
+    projectile.node.remove();
+    this.enemyProjectiles.splice(this.enemyProjectiles.indexOf(projectile), 1);
   }
 
   isProjectileOutOfBounds(projectile) {
@@ -339,14 +330,24 @@ class Game {
   cleanProjectiles() {
     this.playerProjectiles.forEach(projectile => {
       if(this.isProjectileOutOfBounds(projectile)) {
-        this.despawnProjectile(projectile);
+        this.despawnPlayerProjectile(projectile);
+      }
+    });
+
+    this.enemyProjectiles.forEach(projectile => {
+      if(this.isProjectileOutOfBounds(projectile)) {
+        this.despawnEnemyProjectile(projectile);
       }
     });
   }
 
   handleProjectileMovement(deltaTime) {
-    this.playerProjectiles.forEach(projectile => {
-      projectile.move(deltaTime);
+    this.playerProjectiles.forEach(playerProjectile => {
+      playerProjectile.move(deltaTime);
+    });
+
+    this.enemyProjectiles.forEach(enemyProjectile => {
+      enemyProjectile.move(deltaTime);
     });
   }
 
@@ -354,10 +355,17 @@ class Game {
     this.enemies.forEach(enemy => {
       this.playerProjectiles.forEach(projectile => {
         if (enemy.isColliding(projectile)) {
-          this.despawnProjectile(projectile);
+          this.despawnPlayerProjectile(projectile);
           enemy.takeDamage(projectile.damage);
         }
       });
+    });
+
+    this.enemyProjectiles.forEach(projectile => {
+      if (this.player.isColliding(projectile)) {
+        this.despawnEnemyProjectile(projectile);
+        this.player.takeDamage(projectile.damage);
+      }
     });
   }
 

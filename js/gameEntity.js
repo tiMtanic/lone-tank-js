@@ -60,7 +60,7 @@ class GameEntity {
   }
 
   shoot() {
-    if (this.attackCooldown > 0) {
+    if (this.attackType !== "shooting" || this.attackCooldown > 0) {
       return null;
     }
 

@@ -28,6 +28,10 @@ function directionFromDegrees(degrees) {
   ];
 }
 
+function rotationFromDirection([x, y]) {
+    return Math.atan2(x, -y) * 180 / Math.PI;
+}
+
 function invertVector(vector) {
   return vector.map(a => -a);
 }

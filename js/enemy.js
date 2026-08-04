@@ -1,15 +1,24 @@
 class Enemy extends GameEntity {
   constructor(enemyConfig, maxX, maxY) {
     // Set Game Entity Properties
-    const width = 40;
-    const height = 40;
     const color = "red";
-    const movementSpeed = 50;
-    const health = 30;
 
     super(enemyConfig.width, enemyConfig.height, color, enemyConfig.health, enemyConfig.movementSpeed, maxX, maxY);
 
+    this.projectileSpawnNode = document.createElement("div");
+    this.projectileSpawnNode.style.position = "absolute";
+    this.projectileSpawnNode.style.backgroundColor = "transparent";
+    this.projectileSpawnNode.style.width = `${4}px`;
+    this.projectileSpawnNode.style.height = `${4}px`;
+
     this.attackType = enemyConfig.attackType;
+    this.attackSpeed = enemyConfig.attackSpeed;
+    this.attackCooldown = this.attackSpeed * 1000 * 2;
+    this.projectileSpeed = enemyConfig.projectileSpeed;
+  }
+
+  init() {
+    this.node.append(this.projectileSpawnNode);
   }
 
   getNextDesiredMovement(target, deltaTime) {
@@ -25,10 +34,11 @@ class Enemy extends GameEntity {
       }
   }
 
-  handleAttack(target) {
-    if (this.attackType === "explode" && this.isColliding(target)) {
+  handleMeleeAttack(target) {
+    if (this.isColliding(target)) {
+      const damage = this.health;
       this.health = 0;
-      return this.damage;
+      return damage;
     }
 
     return 0;
