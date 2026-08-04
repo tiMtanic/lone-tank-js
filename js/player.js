@@ -2,7 +2,7 @@ class Player extends GameEntity {
   constructor(maxX, maxY) {
     // Set Game Entity Properties
     const width = 40;
-    const height = 40;
+    const height = 60;
     const color = "blue";
     const movementSpeed = 100;
     const health = 100;
@@ -10,6 +10,7 @@ class Player extends GameEntity {
     super(width, height, color, health, movementSpeed, maxX, maxY);
 
     this.attackSpeed = 0.25;
+    this.rotationSpeed = 90;
 
     this.turretWidth = this.height * 1.4;
     this.turretHeight = this.height * 1.4;
@@ -51,5 +52,27 @@ class Player extends GameEntity {
     currentHealthNode.innerText = Math.ceil(this.health);
     maxHealthNode.innerText = this.maxHealth;
     healthBarNode.style.width = `${this.health / this.maxHealth * 100}%`;
+  }
+
+  rotateLeft(deltaTime) {
+    this.currentMovementAngle -= normalizeAngle(this.rotationSpeed / 1000 * deltaTime);
+    this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+  }
+
+  rotateRight(deltaTime) {
+    this.currentMovementAngle += normalizeAngle(this.rotationSpeed / 1000 * deltaTime);
+    this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+  }
+
+  updateMovementVectorForward() {
+    this.movementDirection = directionFromDegrees(this.currentMovementAngle);
+  }
+
+  updateMovementVectorBackward() {
+    this.movementDirection = invertVector(directionFromDegrees(this.currentMovementAngle));
+  }
+
+  resetMovementVector() {
+    this.movementDirection = [0, 0];
   }
 }

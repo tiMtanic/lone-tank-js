@@ -129,33 +129,50 @@ class Game {
   }
 
   handlePlayerMovement(deltaTime) {
-    if (this.playerController.keyboardKeys.KeyW.isPressed) {
-      game.player.movementDirection[1] = -1;
-      game.player.lookDirection[1] = -1;
-    } else if(this.playerController.keyboardKeys.KeyS.isPressed) {
-      game.player.movementDirection[1] = 1;
-      game.player.lookDirection[1] = 1;
-    } else {
-      game.player.movementDirection[1] = 0;
-      
-      if (game.player.movementDirection[0] !== 0) {
-        game.player.lookDirection[1] = 0;
-      }
-    }
-
     if (this.playerController.keyboardKeys.KeyA.isPressed) {
-      game.player.movementDirection[0] = -1;
-      game.player.lookDirection[0] = -1;
+      this.player.rotateLeft(deltaTime);
     } else if (this.playerController.keyboardKeys.KeyD.isPressed) {
-      game.player.movementDirection[0] = 1;
-      game.player.lookDirection[0] = 1;
-    } else {
-      game.player.movementDirection[0] = 0;
-
-      if (game.player.movementDirection[1] !== 0) {
-        game.player.lookDirection[0] = 0;
-      }
+      this.player.rotateRight(deltaTime);
     }
+
+    if (this.playerController.keyboardKeys.KeyW.isPressed) {
+      this.player.updateMovementVectorForward();
+    } else if (this.playerController.keyboardKeys.KeyS.isPressed) {
+      this.player.updateMovementVectorBackward();
+    } else {
+      this.player.resetMovementVector();
+    }
+
+    //////////////////////
+
+
+    // if (this.playerController.keyboardKeys.KeyW.isPressed) {
+    //   game.player.movementDirection[1] = -1;
+    //   game.player.lookDirection[1] = -1;
+    // } else if(this.playerController.keyboardKeys.KeyS.isPressed) {
+    //   game.player.movementDirection[1] = 1;
+    //   game.player.lookDirection[1] = 1;
+    // } else {
+    //   game.player.movementDirection[1] = 0;
+      
+    //   if (game.player.movementDirection[0] !== 0) {
+    //     game.player.lookDirection[1] = 0;
+    //   }
+    // }
+
+    // if (this.playerController.keyboardKeys.KeyA.isPressed) {
+    //   game.player.movementDirection[0] = -1;
+    //   game.player.lookDirection[0] = -1;
+    // } else if (this.playerController.keyboardKeys.KeyD.isPressed) {
+    //   game.player.movementDirection[0] = 1;
+    //   game.player.lookDirection[0] = 1;
+    // } else {
+    //   game.player.movementDirection[0] = 0;
+
+    //   if (game.player.movementDirection[1] !== 0) {
+    //     game.player.lookDirection[0] = 0;
+    //   }
+    // }
 
     const desiredX = this.player.x + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
     const desiredY = this.player.y + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
@@ -285,7 +302,7 @@ class Game {
 
   // Projectile logic
   spawnProjectile(projectile) {
-    projectile.node.style.transform = "rotate(" + this.player.currentAngle + "deg)";
+    projectile.node.style.transform = "rotate(" + this.player.currentAimAngle + "deg)";
     this.playerProjectiles.push(projectile);
     gameplayContainerNode.append(projectile.node);
   }

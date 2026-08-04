@@ -10,14 +10,28 @@ function getNormalizedDirectionVector(from, to) {
   return [dx / length, dy / length];
 }
 
-function getAbsolutePosition(element) {
+function getAbsolutePositionCenter(element) {
     const rect = element.getBoundingClientRect();
-    return [rect.left, rect.top];
+    return [rect.left + rect.width / 2, rect.top + rect.height / 2];
 }
 
-function getGameplayPosition(element) {
-    const absolutePosition = getAbsolutePosition(element);
-    absolutePosition[0] += element.offsetWidth / 2;
-    absolutePosition[1] += element.offsetHeight / 2;
+function getGameplayPositionCenter(element) {
+    const absolutePosition = getAbsolutePositionCenter(element);
     return [absolutePosition[0] - gameplayContainerNode.offsetLeft, absolutePosition[1] - gameplayContainerNode.offsetTop];
+}
+
+function directionFromDegrees(degrees) {
+  const radians = degrees * Math.PI / 180;
+  return [
+    Math.sin(radians),
+    -Math.cos(radians)
+  ];
+}
+
+function invertVector(vector) {
+  return vector.map(a => -a);
+}
+
+function normalizeAngle(deg) {
+    return ((deg % 360) + 360) % 360;
 }

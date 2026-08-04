@@ -8,8 +8,9 @@ class GameEntity {
     this.width = width;
     this.height = height;
     this.lookDirection = [0, -1];
-    this.currentAngle = 0;
+    this.currentAimAngle = 0;
     this.movementDirection = [0, 0];
+    this.currentMovementAngle = 0;
     this.attackSpeed = 1.00;
     this.attackCooldown = 0;
     this.attackType = "shooting";
@@ -65,7 +66,7 @@ class GameEntity {
 
     this.attackCooldown = this.attackSpeed * 1000;
 
-    const projectileSpawnNodePosition = getGameplayPosition(this.projectileSpawnNode);
+    const projectileSpawnNodePosition = getGameplayPositionCenter(this.projectileSpawnNode);
 
     return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight/ 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.damage);
   }

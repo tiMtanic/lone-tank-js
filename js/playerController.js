@@ -97,20 +97,17 @@ class PlayerController {
 
     this.mouseX = event.clientX;
     this.mouseY = event.clientY;
-    //console.log(this.mouseX, this.mouseY);
   }
 
   handleTurretRotation(player) {
-    const playerNodePosition = getAbsolutePosition(player.node);
-    playerNodePosition[0] += player.width / 2;
-    playerNodePosition[1] += player.height / 2;
+    const playerNodePosition = getAbsolutePositionCenter(player.node);
 
     const v1 = [playerNodePosition[0], playerNodePosition[1]];
     const v2 = this.getMousePosition();
     const angleDeg = Math.atan2(v2[1] - v1[1], v2[0] - v1[0]) * 180 / Math.PI + 90;
 
-    player.currentAngle = angleDeg;
-    player.turretNode.style.transform = "rotate(" + angleDeg + "deg)";
+    player.currentAimAngle = normalizeAngle(angleDeg);
+    player.turretNode.style.transform = "rotate(" + (player.currentAimAngle - player.currentMovementAngle) + "deg)";
     player.lookDirection = getNormalizedDirectionVector(playerNodePosition, this.getMousePosition());
   }
 

@@ -9,3 +9,9 @@ In the following table you can see the prompt used and also a summary of the out
 |Prompt|Summary|
 |----------|----------|
 |I want to register and unregister event listeners in JavaScript at specific places in my code. Task: Please identify the problem why unregistering the event listeners is not working in this case. Suggest a possible solution and explain it. Keep it short and focus on the important things.<br/><code>registerListeners() { window.addEventListener("keydown", this.handleKeyDown.bind(this)); window.addEventListener("keyup", this.handleKeyUp.bind(this)); this.unregisterListeners(); } unregisterListeners() { window.removeEventListener("keydown", this.handleKeyDown.bind(this)); window.removeEventListener("keyup", this.handleKeyUp.bind(this)); }</code>|The AI identified the problem: The problem is that every call to bind() creates a new function object.<br/>The AI suggested to hold a reference to the bound function in a variable.<br/><code>constructor() { this.boundHandleKeyDown = this.handleKeyDown.bind(this); this.boundHandleKeyUp = this.handleKeyUp.bind(this); }</code>|
+
+## Math
+
+|Prompt|Summary|
+|----------|----------|
+|Explain to me in simple steps how I can convert degrees to a direction vector, where 0° result in a direction vector pointing upwards. (0° -> [0, -1])|The AI suggested to swap sine and cosine and negate the y-component:<br />1. Convert degrees to radians<br />2. Compute x and y<br />x = sin(radians)<br />y = -cos(radians)<br />3. Combine them [sin(radians), -cos(radians)]|
