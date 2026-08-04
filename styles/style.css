@@ -163,3 +163,20 @@ h1 {
 .start-game-btn {
   background-color: #00EE00;
 }
+
+#controls-table {
+  font-size: 32px;
+}
+
+#controls-table td:first-child {
+  text-align: center;
+  padding-right: 16px;
+}
+
+#game-start-screen .menu-container-main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+}

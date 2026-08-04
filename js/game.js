@@ -30,7 +30,7 @@ class Game {
     this.spawnAreaOffset = 50;
     this.enemiesAmount = 1;
     this.currentLevel = 0;
-    this.maxLevel = 2;
+    this.maxLevel = 30;
 
     this.changeGameState(initialState);
   }
@@ -322,11 +322,6 @@ class Game {
     this.playerProjectiles.forEach(projectile => {
       if(this.isProjectileOutOfBounds(projectile)) {
         this.despawnProjectile(projectile);
-      }
-
-      if(!this.playerProjectiles.includes(projectile)) {
-        console.log("x");
-        this.removeProjectileNode(projectile);
       }
     });
   }
