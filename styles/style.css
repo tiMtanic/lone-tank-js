@@ -186,3 +186,11 @@ h1 {
   align-items: center;
   gap: 64px;
 }
+
+#upgrade-menu {
+  display: none;
+  position: absolute;
+  background-color: #FF000055;
+  width: 1000px;
+  height: 650px;
+}

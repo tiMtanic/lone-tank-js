@@ -36,7 +36,7 @@ class Enemy extends GameEntity {
 
     this.attackType = enemyConfig.attackType;
     this.attackSpeed = enemyConfig.attackSpeed;
-    this.attackCooldown = this.attackSpeed * 1000 * 2;
+    this.attackCooldown = this.attackSpeed * 1000;
     this.projectileSpeed = enemyConfig.projectileSpeed;
     this.movementAnimationSpeed = enemyConfig.movementAnimationSpeed;
     this.isMoving = true;

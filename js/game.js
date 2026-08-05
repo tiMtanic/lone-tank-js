@@ -48,10 +48,12 @@ class Game {
       case "gameover":
         this.showGameOverScreen();
         this.endGameplay();
+        this.playerController.unregisterListeners();
         break;
       case "gamewin":
         this.showGameWinScreen();
         this.endGameplay();
+        this.playerController.unregisterListeners();
         break;
     }
 
@@ -407,7 +409,7 @@ class Game {
     const deltaTime = this.getDeltaTime();
     this.handleProjectiles(deltaTime);
     this.handleEnemies(deltaTime);
-    this.handlePlayer(deltaTime);  
+    this.handlePlayer(deltaTime);
     this.playerController.handleTurretRotation(this.player);
     this.player.handleCooldowns(deltaTime);
     this.player.handleAnimations(deltaTime);

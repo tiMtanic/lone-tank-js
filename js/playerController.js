@@ -20,6 +20,7 @@ class PlayerController {
     this.boundHandleMouse1Down = this.handleMouse1Down.bind(this);
     this.boundHandleMouse1Up = this.handleMouse1Up.bind(this);
     this.boundHandleMousePosition = this.handleMousePosition.bind(this);
+    this.boundhandleContextMenu = this.handleContextMenu.bind(this);
   }
 
   registerListeners() {
@@ -27,7 +28,8 @@ class PlayerController {
     window.addEventListener("keyup", this.boundHandleKeyUp);
     window.addEventListener("mousedown", this.boundHandleMouse1Down);
     window.addEventListener("mouseup", this.boundHandleMouse1Up);
-    window.addEventListener("mousemove", this.boundHandleMousePosition)
+    window.addEventListener("mousemove", this.boundHandleMousePosition);
+    window.addEventListener("contextmenu", this.boundhandleContextMenu);
   }
 
   unregisterListeners() {
@@ -35,7 +37,8 @@ class PlayerController {
     window.removeEventListener("keyup", this.boundHandleKeyUp);
     window.removeEventListener("mousedown", this.boundHandleMouse1Down);
     window.removeEventListener("mouseup", this.boundHandleMouse1Up);
-    window.removeEventListener("mousemove", this.boundHandleMousePosition)
+    window.removeEventListener("mousemove", this.boundHandleMousePosition);
+    window.removeEventListener("contextmenu", this.boundhandleContextMenu);
   }
 
   handleKeyDown(event) {
@@ -65,6 +68,8 @@ class PlayerController {
   }
 
   handleMouse1Down(event) {
+    event.preventDefault();
+
     if (event.button === 0 && !this.mouseKeys["Mouse1"].isPressed) {
       this.mouseKeys["Mouse1"].isPressed = true;
 
@@ -82,6 +87,10 @@ class PlayerController {
         this.mouseKeys["Mouse1"].onReleased();
       }
     }
+  }
+
+  handleContextMenu(event) {
+    event.preventDefault();
   }
 
   setMouseAction(action, callback) {

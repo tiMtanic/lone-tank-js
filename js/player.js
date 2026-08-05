@@ -94,13 +94,17 @@ class Player extends GameEntity {
     if (this.movementSound) {
       this.movementSound.play();
     }
-    
+
     this.movementDirection = invertVector(directionFromDegrees(this.currentMovementAngle));
   }
 
   resetMovementVector() {
     this.isMoving = false;
-    this.movementSound.pause();
+
+    if (this.movementSound) {
+      this.movementSound.pause();
+    }
+
     this.movementDirection = [0, 0];
   }
 }
