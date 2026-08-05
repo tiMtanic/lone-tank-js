@@ -1,14 +1,18 @@
 class EnemyConfig {
-  constructor(name, width, height, sprite, deathSprite, health, movementSpeed, attackType, attackSpeed, projectileSpeed) {
+  constructor(name, width, height, sprites, deathSprite, projectileSprite, movementAnimationSpeed, health, movementSpeed, attackType, attackSpeed, projectileSpeed, projectileWidth, projectileHeight) {
     this.name = name;
     this.width = width;
+    this.movementAnimationSpeed = movementAnimationSpeed;
     this.height = height;
-    this.sprite = sprite;
+    this.sprites = sprites;
     this.deathSprite = deathSprite;
+    this.projectileSprite = projectileSprite;
     this.health = health;
     this.movementSpeed = movementSpeed;
     this.attackType = attackType;
     this.attackSpeed = attackSpeed;
     this.projectileSpeed = projectileSpeed;
+    this.projectileWidth = projectileWidth;
+    this.projectileHeight = projectileHeight;
   }
 }

@@ -69,15 +69,15 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 1000px;
-  height: 1100px;
+  width: 1440px;
+  height: 910px;
 }
 
 .main-content-container {
   display: flex;
   background-color: #222222;
-  width: 1000px;
-  height: 1000px;
+  width: 1440px;
+  height: 810px;
 }
 
 .menu-container {
@@ -94,12 +94,18 @@ h1 {
   display: none;
 }
 
+#gameplay-screen {
+  cursor: crosshair;
+}
+
 #gameplay-container {
   position: relative;
   overflow: hidden;
   user-select: none;
   /* box-sizing: border-box; */
-  cursor: crosshair;
+  z-index: -100;
+  background-image: url("../assets/images/terrain/desert.png");
+  background-repeat: repeat;
 }
 
 #gameplay-container *, #top-ui *, #bottom-ui * {

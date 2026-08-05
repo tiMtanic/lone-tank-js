@@ -31,7 +31,11 @@ Photoshop
 [MDN Web Docs](https://developer.mozilla.org/en-US/)\
 [W3Schools](https://www.w3schools.com/)\
 [StackOverflow](https://stackoverflow.com/)\
-[Micro5 @ Google Fonts](https://fonts.google.com/specimen/Micro+5?preview.script=Latn) - [OFL License](https://fonts.google.com/specimen/Micro+5/license?preview.script=Latn) 
+[Micro5 @ Google Fonts](https://fonts.google.com/specimen/Micro+5?preview.script=Latn) - [OFL License](https://fonts.google.com/specimen/Micro+5/license?preview.script=Latn)\
+sci-fi-laser-blaster-shot-6 by flyingsaucerinvasion -- https://freesound.org/s/615812/ -- License: Attribution 3.0\
+Hitmarker Sound Effect.mp3 by aruscio28 -- https://freesound.org/s/322640/ -- License: Creative Commons 0\
+bucket_splash.mp3 by minian89 -- https://freesound.org/s/195955/ -- License: Creative Commons 0\
+Tank or Tower Turret Moving and Turning by qubodup -- https://freesound.org/s/171657/ -- License: Creative Commons 0
 
 ### AI Usage
 

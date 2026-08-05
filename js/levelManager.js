@@ -34,16 +34,15 @@ class LevelManager {
 
   generateEnemyConfigs() {
     return {
-      "exploder1": new EnemyConfig("exploder1", 40, 40, "", "", 30, 50, "exploding", 0, 0),
-      "exploder2": new EnemyConfig("exploder2", 20, 20, "", "", 30, 50, "exploding", 0, 0),
-      "shooter1": new EnemyConfig("shooter1", 40, 40, "", "", 30, 25, "shooting", 2.0, 100),
+      "exploder1": new EnemyConfig("exploder1", 54, 64, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 30, 50, "exploding", 0, 0, 0, 0),
+      "venomShooter": new EnemyConfig("venomShooter", 52, 64, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 50, 25, "shooting", 2.0, 100, 16, 48),
     };
   }
 
   generateLevels() {
     return {
       0: new Level([
-        [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder2"], this.enemyConfigs["shooter1"]],
+        [this.enemyConfigs["exploder1"], this.enemyConfigs["venomShooter"], this.enemyConfigs["exploder1"]],
         [this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"], this.enemyConfigs["exploder1"]]
       ]),
       1: new Level([

@@ -25,11 +25,12 @@ class Game {
     this.enemies = [];
     this.playerProjectiles = [];
     this.enemyProjectiles = [];
+    this.enemyDeathSprites = [];
     this.gameplayLoopIntervalId = null;
     this.maxX;
     this.maxY;
     this.timePreviousTick;
-    this.spawnAreaOffset = 50;
+    this.spawnAreaOffset = 100;
     this.enemiesAmount = 1;
 
     this.changeGameState(initialState);
@@ -115,7 +116,6 @@ class Game {
     this.player.node.style.top = `${this.player.y}px`;
 
     gameplayContainerNode.append(this.player.node);
-    this.player.init();
   }
 
   handlePlayer(deltaTime) {
@@ -170,8 +170,6 @@ class Game {
       this.maxY
     );
 
-    enemy.init();
-
     const spawnDirection = Math.floor(Math.random() * 4);
     let enemySpawnPosition;
 
@@ -204,9 +202,13 @@ class Game {
   }
 
   despawnEnemy(enemy) {
+    const deathSpriteNode = enemy.getDeathSpriteNode();
+    this.enemyDeathSprites.push(deathSpriteNode);
+    gameplayContainerNode.append(deathSpriteNode);
     this.enemies.splice(this.enemies.indexOf(enemy), 1);
     enemy.node.remove();
   }
+
 
   handleEnemySpawning() {
     if (this.enemies.length === 0) {
@@ -216,6 +218,7 @@ class Game {
           this.updateLevelUI();
         } else {
           // If there are no levels left the game is won
+          this.player.disableAudio();
           this.changeGameState("gamewin");
         }
       } else {
@@ -242,6 +245,8 @@ class Game {
 
       if (this.canEntityMove(enemy, desiredPosition.desiredX, desiredPosition.desiredY)) {
         enemy.moveTo(desiredPosition.desiredX, desiredPosition.desiredY);
+        enemy.handleRotation();
+        enemy.handleAnimations(deltaTime);
       }
     });
   }
@@ -405,6 +410,7 @@ class Game {
     this.handlePlayer(deltaTime);  
     this.playerController.handleTurretRotation(this.player);
     this.player.handleCooldowns(deltaTime);
+    this.player.handleAnimations(deltaTime);
     this.handlePlayerShooting();
   }
 }

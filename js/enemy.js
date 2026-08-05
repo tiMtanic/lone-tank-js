@@ -3,7 +3,30 @@ class Enemy extends GameEntity {
     // Set Game Entity Properties
     const color = "red";
 
-    super(enemyConfig.width, enemyConfig.height, color, enemyConfig.health, enemyConfig.movementSpeed, maxX, maxY);
+    super(enemyConfig.sprites, enemyConfig.width, enemyConfig.height, color, enemyConfig.health, enemyConfig.movementSpeed, maxX, maxY);
+
+    // Display
+    this.deathSprite = enemyConfig.deathSprite;
+    this.projectileSprite = enemyConfig.projectileSprite;
+    this.projectileWidth = enemyConfig.projectileWidth;
+    this.projectileHeight = enemyConfig.projectileHeight;
+
+    this.node.style.alignItems = "flex-start";
+    this.node.style.backgroundSize = "auto 100%";
+    // this.node.style.backgroundColor = "red";
+
+    this.deathSpriteNode = document.createElement("div");
+    this.deathSpriteNode.style.position = "absolute";
+    this.deathSpriteNode.style.display = "flex";
+    this.deathSpriteNode.style.justifyContent = "center";
+    this.deathSpriteNode.style.alignItems = "center";
+    this.deathSpriteNode.style.backgroundImage = `url("${this.deathSprite}")`;
+    this.deathSpriteNode.style.backgroundPosition = "center center";
+    this.deathSpriteNode.style.backgroundRepeat = "no-repeat"
+    this.deathSpriteNode.style.backgroundSize = "contain";
+    this.deathSpriteNode.style.width = `${this.width}px`;
+    this.deathSpriteNode.style.height = `${this.height}px`;
+    this.deathSpriteNode.style.zIndex = "-99";
 
     this.projectileSpawnNode = document.createElement("div");
     this.projectileSpawnNode.style.position = "absolute";
@@ -15,9 +38,9 @@ class Enemy extends GameEntity {
     this.attackSpeed = enemyConfig.attackSpeed;
     this.attackCooldown = this.attackSpeed * 1000 * 2;
     this.projectileSpeed = enemyConfig.projectileSpeed;
-  }
+    this.movementAnimationSpeed = enemyConfig.movementAnimationSpeed;
+    this.isMoving = true;
 
-  init() {
     this.node.append(this.projectileSpawnNode);
   }
 
@@ -42,6 +65,18 @@ class Enemy extends GameEntity {
     }
 
     return 0;
+  }
+
+  handleRotation() {
+    this.currentMovementAngle = normalizeAngle(rotationFromDirection(this.movementDirection));
+    this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+  }
+
+  getDeathSpriteNode() {
+    this.deathSpriteNode.style.left = `${this.x}px`;
+    this.deathSpriteNode.style.top = `${this.y}px`;
+    this.deathSpriteNode.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+    return this.deathSpriteNode;
   }
 
 }
