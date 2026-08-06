@@ -22,7 +22,7 @@ class Player extends GameEntity {
     // Audio
     this.firingSound = "./assets/sounds/laser-blaster-shot.mp3";
     this.movementSound = new Audio("./assets/sounds/tank-moving.flac");
-    this.movementSound.volume = 0.05;
+    this.movementSound.volume = 0.02;
     this.movementSound.loop = true;
 
     this.node.style.backgroundSize = "auto auto";

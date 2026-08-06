@@ -22,6 +22,7 @@ class GameEntity {
 
     // Audio
     this.firingSound;
+    this.soundVolume = 0.20;
     this.movementSound;
 
     // Attack
@@ -88,6 +89,7 @@ class GameEntity {
 
     if (this.firingSound) {
       const sound = new Audio(this.firingSound);
+      sound.volume = this.soundVolume;
       sound.play();
     }
 
@@ -99,13 +101,17 @@ class GameEntity {
   }
 
   takeDamage(amount) {
-    new Audio("./assets/sounds/hitmarker-sound-effect.mp3").play();
+    const hitmarkerAudio = new Audio("./assets/sounds/hitmarker-sound-effect.mp3")
+    hitmarkerAudio.volume = this.soundVolume;
+    hitmarkerAudio.play();
     
     if (this.health - amount > 0) {
       
       this.health -= amount;
     } else {
-      new Audio("./assets/sounds/splash.mp3").play();
+      const deathAudio = new Audio("./assets/sounds/splash.mp3")
+      deathAudio.volume = this.soundVolume;
+      deathAudio.play();
       this.disableAudio();
       this.health = 0;
     }
