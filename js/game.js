@@ -8,6 +8,11 @@ const healthBarNode = document.querySelector("#health-bar");
 const currentHealthNode = document.querySelector("#current-health");
 const maxHealthNode = document.querySelector("#max-health");
 const currentLevelNode = document.querySelector("#current-level");
+const upgradeMenuNode = document.querySelector("#upgrade-menu");
+const upgradeSelection1Node = upgradeMenuNode.querySelector("#upgrade-selection-1");
+const upgradeSelection2Node = upgradeMenuNode.querySelector("#upgrade-selection-2");
+const upgradeSelection3Node = upgradeMenuNode.querySelector("#upgrade-selection-3");
+const upgradeSelectionRepairNode = upgradeMenuNode.querySelector("#repair-selection");
 
 // Buttons
 const startButtonNode = gameStartScreenNode.querySelector(".start-game-btn");
@@ -30,8 +35,10 @@ class Game {
     this.maxX;
     this.maxY;
     this.timePreviousTick;
-    this.spawnAreaOffset = 100;
+    this.spawnAreaOffset = 128;
     this.enemiesAmount = 1;
+    this.isUpgradeMenuVisible = false;
+    this.upgradeSelected = false;
 
     this.changeGameState(initialState);
   }
@@ -110,14 +117,17 @@ class Game {
 
   // Player logic
   spawnPlayer() {
+    this.resetPlayerPosition();
+    gameplayContainerNode.append(this.player.node);
+  }
+
+  resetPlayerPosition() {
     // Calculate the spawning point for the player (The exact middle of the gameplay-container.)
     // and set the initial position.
     this.player.x = this.maxX / 2 - this.player.width / 2;
     this.player.y = this.maxY / 2 - this.player.height / 2;
     this.player.node.style.left = `${this.player.x}px`;
     this.player.node.style.top = `${this.player.y}px`;
-
-    gameplayContainerNode.append(this.player.node);
   }
 
   handlePlayer(deltaTime) {
@@ -146,8 +156,8 @@ class Game {
       this.player.resetMovementVector();
     }
 
-    const desiredX = this.player.x + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[0];
-    const desiredY = this.player.y + this.player.movementSpeed / 1000 * deltaTime * this.player.movementDirection[1];
+    const desiredX = this.player.x + (this.player.movementSpeed * this.player.movementSpeedMultiplier) / 1000 * deltaTime * this.player.movementDirection[0];
+    const desiredY = this.player.y + (this.player.movementSpeed * this.player.movementSpeedMultiplier) / 1000 * deltaTime * this.player.movementDirection[1];
 
     if (this.canEntityMove(this.player, desiredX, desiredY)) {
       this.player.moveTo(desiredX, desiredY);
@@ -211,13 +221,24 @@ class Game {
     enemy.node.remove();
   }
 
+  cleanEnemyDeathSprites() {
+    this.enemyDeathSprites.forEach(spriteNode => spriteNode.remove());
+    this.enemyDeathSprites = [];
+  }
+
 
   handleEnemySpawning() {
-    if (this.enemies.length === 0) {
+    if (!this.isUpgradeMenuVisible && this.enemies.length === 0) {
+      
       if (this.levelManager.isLastWave()){
         if (!this.levelManager.isLastLevel()) {
-          this.levelManager.startNextLevel();
-          this.updateLevelUI();
+          if (!this.upgradeSelected) {
+            this.showUpgradeMenu();
+          } else {
+            this.levelManager.startNextLevel();
+            this.updateLevelUI();
+            this.upgradeSelected = false;
+          }
         } else {
           // If there are no levels left the game is won
           this.player.disableAudio();
@@ -380,6 +401,26 @@ class Game {
   updateLevelUI() {
     currentLevelNode.innerText = this.levelManager.currentLevel;
   }
+
+  showUpgradeMenu() {
+    this.isUpgradeMenuVisible = true;
+    this.playerController.unregisterListeners();
+    this.upgradeManager.updateUpgradeOptions();
+    this.playerController.registerUpgradeMenuListeners(this.upgradeManager.applyOption1.bind(this.upgradeManager), this.upgradeManager.applyOption2.bind(this.upgradeManager), this.upgradeManager.applyOption3.bind(this.upgradeManager), this.upgradeManager.applyRepair.bind(this.upgradeManager));
+    upgradeMenuNode.style.display = "flex";
+  }
+
+  hideUpgradeMenu() {
+    this.isUpgradeMenuVisible = false;
+    this.upgradeSelected = true;
+    this.player.updateHealthBarUI();
+    this.playerController.unregisterUpgradeMenuListeners();
+    this.resetPlayerPosition();
+    this.player.resetRotation();
+    this.cleanEnemyDeathSprites();
+    this.playerController.registerListeners();
+    upgradeMenuNode.style.display = "none";
+  }
   
   // Gameplay logic
   handleStartGameplay() {
@@ -388,11 +429,8 @@ class Game {
     this.maxY = gameplayContainerNode.offsetHeight;
     this.levelManager.startNextLevel();
     this.updateLevelUI();
-
-    this.player = new Player(
-      this.maxX,
-      this.maxY
-    );
+    this.player = new Player(this.maxX, this.maxY);
+    this.upgradeManager = new UpgradeManager(this.player, this.hideUpgradeMenu.bind(this));
     this.spawnPlayer();
     this.playerController.registerListeners();
     this.timePreviousTick = Date.now();

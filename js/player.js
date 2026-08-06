@@ -12,8 +12,10 @@ class Player extends GameEntity {
 
     super(sprites, width, height, color, health, movementSpeed, maxX, maxY);
 
-    this.attackSpeed = 0.25;
+    this.attackSpeed = 3;
+
     this.rotationSpeed = 90;
+    this.rotationSpeedMultiplier = 1.0;
     this.projectileColor = "#00FFFF";
     this.projectileHeight = 32;
 
@@ -69,12 +71,17 @@ class Player extends GameEntity {
   }
 
   rotateLeft(deltaTime) {
-    this.currentMovementAngle -= normalizeAngle(this.rotationSpeed / 1000 * deltaTime);
+    this.currentMovementAngle -= normalizeAngle((this.rotationSpeed * this.rotationSpeedMultiplier) / 1000 * deltaTime);
     this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
   }
 
   rotateRight(deltaTime) {
-    this.currentMovementAngle += normalizeAngle(this.rotationSpeed / 1000 * deltaTime);
+    this.currentMovementAngle += normalizeAngle((this.rotationSpeed * this.rotationSpeedMultiplier) / 1000 * deltaTime);
+    this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+  }
+
+  resetRotation() {
+    this.currentMovementAngle = 0;
     this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
   }
 

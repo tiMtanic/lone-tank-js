@@ -27,6 +27,7 @@ class GameEntity {
     // Attack
     this.attackSpeed = 1.00;
     this.attackCooldown = 0;
+    this.attackSpeedMultiplier = 1;
     this.attackType = "shooting";
 
     // Create entity node
@@ -47,14 +48,17 @@ class GameEntity {
     this.health = health;
     this.maxHealth = health;
     this.movementSpeed = movementSpeed;
+    this.movementSpeedMultiplier = 1.0;
 
     // Projectile Properties
     this.projectileSpawnNode;
     this.projectileWidth = 4;
     this.projectileHeight = 20;
     this.projectileSpeed = 500;
+    this.projectileSpeedMultiplier = 1.0;
     this.projectileColor = "red";
     this.damage = 10;
+    this.damageMultiplier = 1.0;
   }
 
   isColliding(otherEntity) {
@@ -87,11 +91,11 @@ class GameEntity {
       sound.play();
     }
 
-    this.attackCooldown = this.attackSpeed * 1000;
+    this.attackCooldown = 1000 / (this.attackSpeed * this.attackSpeedMultiplier);
 
     const projectileSpawnNodePosition = getGameplayPositionCenter(this.projectileSpawnNode);
 
-    return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed, this.damage, this.projectileSprite);
+    return new Projectile(projectileSpawnNodePosition[0] - this.projectileWidth / 2, projectileSpawnNodePosition[1] - this.projectileHeight / 2, this.projectileWidth, this.projectileHeight, this.projectileColor, structuredClone(this.lookDirection), this.projectileSpeed * this.projectileSpeedMultiplier, this.damage * this.damageMultiplier, this.projectileSprite);
   }
 
   takeDamage(amount) {

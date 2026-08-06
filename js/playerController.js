@@ -21,6 +21,11 @@ class PlayerController {
     this.boundHandleMouse1Up = this.handleMouse1Up.bind(this);
     this.boundHandleMousePosition = this.handleMousePosition.bind(this);
     this.boundhandleContextMenu = this.handleContextMenu.bind(this);
+    this.upgradeSelection1Callback = null;
+    this.upgradeSelection2Callback = null;
+    this.upgradeSelection3Callback = null;
+    this.upgradeSelectionRepairCallback = null;
+    this.onAfterSelectUpgradeCallback = null;
   }
 
   registerListeners() {
@@ -39,6 +44,33 @@ class PlayerController {
     window.removeEventListener("mouseup", this.boundHandleMouse1Up);
     window.removeEventListener("mousemove", this.boundHandleMousePosition);
     window.removeEventListener("contextmenu", this.boundhandleContextMenu);
+
+    for (let keyboardKey in this.keyboardKeys) {
+      this.keyboardKeys[keyboardKey].isPressed = false;
+    }
+
+    for (let mouseKey in this.mouseKeys) {
+      this.mouseKeys[mouseKey].isPressed = false;
+    }
+  }
+
+  registerUpgradeMenuListeners(option1Callback, option2Callback, option3Callback, repairCallback) {
+    this.upgradeSelection1Callback = option1Callback;
+    this.upgradeSelection2Callback = option2Callback;
+    this.upgradeSelection3Callback = option3Callback;
+    this.upgradeSelectionRepairCallback = repairCallback;
+
+    upgradeSelection1Node.addEventListener("click", this.upgradeSelection1Callback);
+    upgradeSelection2Node.addEventListener("click", this.upgradeSelection2Callback);
+    upgradeSelection3Node.addEventListener("click", this.upgradeSelection3Callback);
+    upgradeSelectionRepairNode.addEventListener("click", this.upgradeSelectionRepairCallback);
+  }
+
+  unregisterUpgradeMenuListeners() {
+    upgradeSelection1Node.removeEventListener("click", this.upgradeSelection1Callback);
+    upgradeSelection2Node.removeEventListener("click", this.upgradeSelection2Callback);
+    upgradeSelection3Node.removeEventListener("click", this.upgradeSelection3Callback);
+    upgradeSelectionRepairNode.removeEventListener("click", this.upgradeSelectionRepairCallback);
   }
 
   handleKeyDown(event) {

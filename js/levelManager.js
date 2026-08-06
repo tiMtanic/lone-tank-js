@@ -22,9 +22,6 @@ class LevelManager {
   }
 
   isLastWave() {
-    console.log("currentWave", this.currentWave);
-    console.log("maxWaveInLevel", this.levels[this.currentLevel - 1].enemyWaves.length);
-
     return this.currentWave === this.levels[this.currentLevel - 1].enemyWaves.length;
   }
 
@@ -34,13 +31,69 @@ class LevelManager {
 
   generateEnemyConfigs() {
     return {
-      "exploder1": new EnemyConfig("exploder1", 54, 64, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 30, 50, "exploding", 0, 0, 0, 0),
-      "venomShooter": new EnemyConfig("venomShooter", 52, 64, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 50, 25, "shooting", 2.0, 100, 16, 48),
+      "exploder1": new EnemyConfig("exploder1", 54, 64, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 25, 50, "exploding", 0, 0, 0, 0),
+      "exploderBoss": new EnemyConfig("exploderBoss", 108, 128, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 400, 50, "exploding", 0, 0, 0, 0),
+      "venomShooter": new EnemyConfig("venomShooter", 52, 64, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 50, 25, "shooting", 0.5, 100, 16, 48),
     };
   }
 
   generateLevels() {
     return {
+      // 0: new Level([
+      //   [
+      //     this.enemyConfigs["exploderBoss"],
+      //   ],
+      // ]),
+      // 1: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 2: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 3: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 4: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 5: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 6: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 7: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 8: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 9: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
+      // 10: new Level([
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      // ]),
       0: new Level([
         [
           this.enemyConfigs["exploder1"],
@@ -177,7 +230,11 @@ class LevelManager {
           this.enemyConfigs["venomShooter"],
         ],
       ]),
-
+      4: new Level([
+        [
+        this.enemyConfigs["exploderBoss"],
+        ]
+      ]),
 
 
 
