@@ -226,7 +226,6 @@ class Game {
     this.enemyDeathSprites = [];
   }
 
-
   handleEnemySpawning() {
     if (!this.isUpgradeMenuVisible && this.enemies.length === 0) {
       
@@ -242,6 +241,7 @@ class Game {
         } else {
           // If there are no levels left the game is won
           this.player.disableAudio();
+          this.despawnAllProjectiles();
           this.changeGameState("gamewin");
         }
       } else {
@@ -335,6 +335,19 @@ class Game {
     this.enemyProjectiles.splice(this.enemyProjectiles.indexOf(projectile), 1);
   }
 
+  despawnAllProjectiles() {
+    for (let projectile of this.playerProjectiles) {
+      projectile.node.remove();
+    }
+
+    for (let projectile of this.enemyProjectiles) {
+      projectile.node.remove();
+    }
+
+    this.playerProjectiles.length = 0;
+    this.enemyProjectiles.length = 0;
+  }
+
   isProjectileOutOfBounds(projectile) {
     if (projectile.y < 0 - projectile.height) {
       return true;
@@ -404,6 +417,7 @@ class Game {
 
   showUpgradeMenu() {
     this.isUpgradeMenuVisible = true;
+    this.despawnAllProjectiles();
     this.playerController.unregisterListeners();
     this.upgradeManager.updateUpgradeOptions();
     this.playerController.registerUpgradeMenuListeners(this.upgradeManager.applyOption1.bind(this.upgradeManager), this.upgradeManager.applyOption2.bind(this.upgradeManager), this.upgradeManager.applyOption3.bind(this.upgradeManager), this.upgradeManager.applyRepair.bind(this.upgradeManager));

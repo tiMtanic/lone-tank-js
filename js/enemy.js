@@ -12,7 +12,7 @@ class Enemy extends GameEntity {
     this.projectileHeight = enemyConfig.projectileHeight;
 
     this.node.style.alignItems = "flex-start";
-    this.node.style.backgroundSize = "auto 100%";
+    //this.node.style.backgroundSize = "auto 100%";
     // this.node.style.backgroundColor = "red";
 
     this.deathSpriteNode = document.createElement("div");

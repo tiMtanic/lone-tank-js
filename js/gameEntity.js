@@ -37,13 +37,17 @@ class GameEntity {
     this.node.style.display = "flex";
     this.node.style.justifyContent = "center";
     this.node.style.alignItems = "center";
-    // this.node.style.backgroundColor = color;
-    this.node.style.backgroundImage = `url("${this.sprites[this.currentSpriteIndex]}")`;
-    this.node.style.backgroundPosition = "center center";
-    this.node.style.backgroundRepeat = "no-repeat"
-    this.node.style.backgroundSize = "contain";
+    // this.node.style.backgroundColor = "red";
     this.node.style.width = `${this.width}px`;
     this.node.style.height = `${this.height}px`;
+
+    this.spriteNode = document.createElement("img");
+    this.spriteNode.style.position = "absolute";
+    this.spriteNode.style.height = `${this.height}px`;
+    this.spriteNode.src = this.sprites[this.currentSpriteIndex];
+
+    this.node.append(this.spriteNode);
+
 
     // Gameplay Properties
     this.health = health;
@@ -144,6 +148,7 @@ class GameEntity {
   }
 
   updateBackgroundImage() {
-    this.node.style.backgroundImage = `url("${this.sprites[this.currentSpriteIndex]}")`;
+    // this.node.style.backgroundImage = `url("${this.sprites[this.currentSpriteIndex]}")`;
+    this.spriteNode.src = this.sprites[this.currentSpriteIndex];
   }
 }

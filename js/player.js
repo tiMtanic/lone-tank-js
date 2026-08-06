@@ -12,8 +12,8 @@ class Player extends GameEntity {
 
     super(sprites, width, height, color, health, movementSpeed, maxX, maxY);
 
+    // Unit Settings
     this.attackSpeed = 3;
-
     this.rotationSpeed = 90;
     this.rotationSpeedMultiplier = 1.0;
     this.projectileColor = "#00FFFF";
@@ -25,7 +25,8 @@ class Player extends GameEntity {
     this.movementSound.volume = 0.02;
     this.movementSound.loop = true;
 
-    this.node.style.backgroundSize = "auto auto";
+    // Node Configuration
+    this.spriteNode.style.height = `${this.height * 1.25}px`;
 
     this.turretWidth = this.height * 1.4;
     this.turretHeight = this.height * 1.4;
@@ -56,6 +57,8 @@ class Player extends GameEntity {
     this.node.append(this.turretNode);
     this.turretNode.append(this.gunNode);
     this.turretNode.append(this.projectileSpawnNode);
+
+    // Initially Update Health Bar
     this.updateHealthBarUI();
   }
 
