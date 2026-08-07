@@ -24,7 +24,7 @@ Use the keyboard to control the tank.
 
 [Figma](https://www.figma.com/)\
 [Visual Studio Code](https://code.visualstudio.com/)\
-[Adobe Photoshop](https://www.adobe.com/en/products/photoshop.html)\
+[Adobe Photoshop](https://www.adobe.com/products/photoshop.html)\
 [ChatGPT (GPT-5.6 Sol)](https://chatgpt.com/)
 
 ### Resources Used
