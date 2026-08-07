@@ -6,6 +6,7 @@ class UpgradeManager {
     this.options = [];
     this.optionRepair = null;
 
+    // Upgrade Probabilities
     this.bronzeProbability = 0.45;
     this.silverProbability = 0.35;
     this.goldProbability = 0.2;
@@ -110,21 +111,16 @@ class UpgradeManager {
   applyUpgradeToPlayer(selectedUpgrade) {
     if (selectedUpgrade.upgradeType === "Attack Speed") {
       this.player.attackSpeedMultiplier += selectedUpgrade.amount / 100;
-      console.log(this.player.attackSpeedMultiplier);
     } else if (selectedUpgrade.upgradeType === "Damage") {
       this.player.damageMultiplier += selectedUpgrade.amount / 100;
-      console.log(this.player.damageMultiplier);
     } else if (selectedUpgrade.upgradeType === "Movement Speed") {
       this.player.movementSpeedMultiplier += selectedUpgrade.amount / 100;
       this.player.rotationSpeedMultiplier += selectedUpgrade.amount / 100;
-      console.log(this.player.movementSpeedMultiplier);
     } else if (selectedUpgrade.upgradeType === "Projectile Speed") {
       this.player.projectileSpeedMultiplier += selectedUpgrade.amount / 100;
-      console.log(this.player.projectileSpeedMultiplier);
     } else if (selectedUpgrade.upgradeType === "Health") {
       this.player.health += selectedUpgrade.amount;
       this.player.maxHealth += selectedUpgrade.amount;
-      console.log(this.player.projectileSpeedMultiplier);
     }
   }
 }

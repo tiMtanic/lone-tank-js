@@ -43,6 +43,10 @@ class Game {
     this.changeGameState(initialState);
   }
 
+  //////////////////////////////////////////////////
+  // State Handling
+  //////////////////////////////////////////////////
+
   changeGameState(state) {
     switch (state) {
       case "start":
@@ -100,22 +104,10 @@ class Game {
     gameWinScreenNode.style.display = "flex";
   }
 
-  canEntityMove(entity, desiredX, desiredY) {
-    //Check if the entity will be inside bounds of the gameplay area
-    if (desiredY < 0) {
-      return false;
-    } else if (desiredY > this.maxY - entity.height) {
-      return false;
-    } else if (desiredX < 0) {
-      return false;
-    } else if (desiredX > this.maxX - entity.width) {
-      return false;
-    }
-
-    return true;
-  }
-
+  //////////////////////////////////////////////////
   // Player logic
+  //////////////////////////////////////////////////
+
   spawnPlayer() {
     this.resetPlayerPosition();
     gameplayContainerNode.append(this.player.node);
@@ -174,7 +166,10 @@ class Game {
     }
   }
 
+  //////////////////////////////////////////////////
   // Enemy logic
+  //////////////////////////////////////////////////
+
   spawnEnemy(enemyConfig) {
     const enemy = new Enemy(
       enemyConfig,
@@ -410,7 +405,10 @@ class Game {
     });
   }
 
+  //////////////////////////////////////////////////
   // UI logic
+  //////////////////////////////////////////////////
+
   updateLevelUI() {
     currentLevelNode.innerText = this.levelManager.currentLevel;
   }
@@ -436,11 +434,36 @@ class Game {
     upgradeMenuNode.style.display = "none";
   }
   
+  //////////////////////////////////////////////////
   // Gameplay logic
+  //////////////////////////////////////////////////
+
+  getDeltaTime() {
+    const deltaTime = Date.now() - this.timePreviousTick;
+    this.timePreviousTick = Date.now();
+    return deltaTime;
+  }
+
+  canEntityMove(entity, desiredX, desiredY) {
+    //Check if the entity will be inside bounds of the gameplay area
+    if (desiredY < 0) {
+      return false;
+    } else if (desiredY > this.maxY - entity.height) {
+      return false;
+    } else if (desiredX < 0) {
+      return false;
+    } else if (desiredX > this.maxX - entity.width) {
+      return false;
+    }
+
+    return true;
+  }
+
   handleStartGameplay() {
     // Set gameplay area bounds
     this.maxX = gameplayContainerNode.offsetWidth;
     this.maxY = gameplayContainerNode.offsetHeight;
+    
     this.levelManager.startNextLevel();
     this.updateLevelUI();
     this.player = new Player(this.maxX, this.maxY);
@@ -449,12 +472,6 @@ class Game {
     this.playerController.registerListeners();
     this.timePreviousTick = Date.now();
     this.gameplayLoopIntervalId = setInterval(this.gameplayLoop.bind(this), 1000 / 60);
-  }
-
-  getDeltaTime() {
-    const deltaTime = Date.now() - this.timePreviousTick;
-    this.timePreviousTick = Date.now();
-    return deltaTime;
   }
 
   gameplayLoop() {

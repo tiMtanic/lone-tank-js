@@ -22,9 +22,10 @@ Use the keyboard to control the tank.
 
 ### Tools Used
 
-Figma\
-Visual Studio Code\
-Photoshop
+[Figma](https://www.figma.com/)\
+[Visual Studio Code](https://code.visualstudio.com/)\
+[Adobe Photoshop](https://www.adobe.com/en/products/photoshop.html)\
+[ChatGPT (GPT-5.6 Sol)](https://chatgpt.com/)
 
 ### Resources Used
 
@@ -32,10 +33,14 @@ Photoshop
 [W3Schools](https://www.w3schools.com/)\
 [StackOverflow](https://stackoverflow.com/)\
 [Micro5 @ Google Fonts](https://fonts.google.com/specimen/Micro+5?preview.script=Latn) - [OFL License](https://fonts.google.com/specimen/Micro+5/license?preview.script=Latn)\
-sci-fi-laser-blaster-shot-6 by flyingsaucerinvasion -- https://freesound.org/s/615812/ -- License: Attribution 3.0\
-Hitmarker Sound Effect.mp3 by aruscio28 -- https://freesound.org/s/322640/ -- License: Creative Commons 0\
-bucket_splash.mp3 by minian89 -- https://freesound.org/s/195955/ -- License: Creative Commons 0\
-Tank or Tower Turret Moving and Turning by qubodup -- https://freesound.org/s/171657/ -- License: Creative Commons 0
+[sci-fi-laser-blaster-shot-6 by flyingsaucerinvasion](https://freesound.org/s/615812/)
+-- License: Attribution 3.0\
+[Hitmarker Sound Effect.mp3 by aruscio28](https://freesound.org/s/322640/)
+-- License: Creative Commons 0\
+[bucket_splash.mp3 by minian89](https://freesound.org/s/195955/)
+-- License: Creative Commons 0\
+[Tank or Tower Turret Moving and Turning by qubodup](https://freesound.org/s/171657/)
+-- License: Creative Commons 0
 
 ### AI Usage
 

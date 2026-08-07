@@ -5,16 +5,21 @@ class Projectile {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.color = color;
     this.direction = direction;
+
+    // Projetile Configuration
     this.projectileSpeed = speed;
     this.damage = damage;
+
+    // Display
     this.sprite = sprite;
+    this.color = color;
 
     // Create projectile node
     this.node = document.createElement("div");
     this.node.style.position = "absolute";
 
+    // Use sprite if it's set. Otherwise use a simple projectile.
     if (this.sprite) {
       this.node.style.backgroundImage = `url("${this.sprite}")`;
       this.node.style.backgroundPosition = "center center";
@@ -30,8 +35,6 @@ class Projectile {
     this.node.style.top = `${this.y}px`;
     this.node.style.width = `${this.width}px`;
     this.node.style.height = `${this.height}px`;
-    this.node.style.zIndex = "-1";
-
   }
 
   move(deltaTime) {

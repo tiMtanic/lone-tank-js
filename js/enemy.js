@@ -11,6 +11,17 @@ class Enemy extends GameEntity {
     this.projectileWidth = enemyConfig.projectileWidth;
     this.projectileHeight = enemyConfig.projectileHeight;
 
+    // Unit Settings
+    this.attackType = enemyConfig.attackType;
+    this.attackSpeed = enemyConfig.attackSpeed;
+    this.attackCooldown = 1000 / this.attackSpeed;
+    this.projectileSpeed = enemyConfig.projectileSpeed;
+    this.damage = enemyConfig.projectileDamage;
+    this.movementAnimationSpeed = enemyConfig.movementAnimationSpeed;
+    this.isMoving = true;
+    this.rotateSprite = enemyConfig.rotateSprite;
+
+    // Node Configuration
     this.node.style.alignItems = "flex-start";
 
     this.deathSpriteNode = document.createElement("div");
@@ -32,13 +43,10 @@ class Enemy extends GameEntity {
     this.projectileSpawnNode.style.width = `${4}px`;
     this.projectileSpawnNode.style.height = `${4}px`;
 
-    this.attackType = enemyConfig.attackType;
-    this.attackSpeed = enemyConfig.attackSpeed;
-    this.attackCooldown = 1000 / this.attackSpeed;
-    this.projectileSpeed = enemyConfig.projectileSpeed;
-    this.damage = enemyConfig.projectileDamage;
-    this.movementAnimationSpeed = enemyConfig.movementAnimationSpeed;
-    this.isMoving = true;
+    if (!this.rotateSprite) {
+      this.node.style.alignItems = "center";
+      this.node.style.justifyContent = "center";
+    }
 
     this.node.append(this.projectileSpawnNode);
   }
@@ -67,8 +75,12 @@ class Enemy extends GameEntity {
   }
 
   handleRotation() {
-    this.currentMovementAngle = normalizeAngle(rotationFromDirection(this.movementDirection));
-    this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+    if (this.rotateSprite) {
+      this.currentMovementAngle = normalizeAngle(rotationFromDirection(this.movementDirection));
+      this.node.style.transform = "rotate(" + this.currentMovementAngle + "deg)";
+    } else {
+      this.node.style.transform = "rotate(180deg)";
+    }
   }
 
   getDeathSpriteNode() {
