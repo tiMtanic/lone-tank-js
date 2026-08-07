@@ -12,8 +12,6 @@ class Enemy extends GameEntity {
     this.projectileHeight = enemyConfig.projectileHeight;
 
     this.node.style.alignItems = "flex-start";
-    //this.node.style.backgroundSize = "auto 100%";
-    // this.node.style.backgroundColor = "red";
 
     this.deathSpriteNode = document.createElement("div");
     this.deathSpriteNode.style.position = "absolute";
@@ -38,6 +36,7 @@ class Enemy extends GameEntity {
     this.attackSpeed = enemyConfig.attackSpeed;
     this.attackCooldown = 1000 / this.attackSpeed;
     this.projectileSpeed = enemyConfig.projectileSpeed;
+    this.damage = enemyConfig.projectileDamage;
     this.movementAnimationSpeed = enemyConfig.movementAnimationSpeed;
     this.isMoving = true;
 

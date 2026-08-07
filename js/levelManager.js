@@ -31,212 +31,592 @@ class LevelManager {
 
   generateEnemyConfigs() {
     return {
-      "exploder1": new EnemyConfig("exploder1", 54, 64, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 25, 50, "exploding", 0, 0, 0, 0),
-      "exploderBoss": new EnemyConfig("exploderBoss", 108, 128, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 400, 50, "exploding", 0, 0, 0, 0),
-      "venomShooter": new EnemyConfig("venomShooter", 52, 64, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 50, 25, "shooting", 0.33, 100, 16, 48),
+      "exploder1": new EnemyConfig("exploder1", 54, 64, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 25, 50, "exploding", 0, 0, 0, 0, 0),
+
+      "exploderBoss": new EnemyConfig("exploderBoss", 108, 128, ["./assets/images/enemies/exploder1_1.png", "./assets/images/enemies/exploder1_2.png"], "./assets/images/enemies/green_splatter.png", null, 128, 400, 50, "exploding", 0, 0, 0, 0, 0),
+
+      "venomShooter": new EnemyConfig("venomShooter", 52, 64, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 50, 25, "shooting", 0.33, 100, 16, 48, 10),
+
+      "venomShooterBoss": new EnemyConfig("venomShooterBoss", 104, 128, ["./assets/images/enemies/venom_shooter_1.png", "./assets/images/enemies/venom_shooter_2.png"], "./assets/images/enemies/green_splatter.png", "./assets/images/enemies/venom_ball.png", 128, 400, 25, "shooting", 0.33, 100, 32, 96, 25),
+
+      "exploder2": new EnemyConfig("exploder2", 54, 64, ["./assets/images/enemies/exploder2_1.png"], "./assets/images/enemies/blue_splatter.png", null, 128, 20, 125, "exploding", 0, 0, 0, 0, 0),
+
+      "robotSoldier": new EnemyConfig("robotSoldier", 36, 48, ["./assets/images/enemies/robot_soldier_1.png", "./assets/images/enemies/robot_soldier_2.png"], "./assets/images/enemies/blue_splatter.png", "./assets/images/enemies/energy_ball.png", 128, 75, 30, "shooting", 0.5, 100, 16, 16, 15),
+
+      "energyShooter": new EnemyConfig("energyShooter", 64, 64, ["./assets/images/enemies/energy_shooter_1.png", "./assets/images/enemies/energy_shooter_2.png"], "./assets/images/enemies/blue_splatter.png", "./assets/images/enemies/energy_ball.png", 128, 100, 20, "shooting", 0.33, 100, 24, 24, 20),
     };
   }
 
   generateLevels() {
     return {
+      10: new Level([
+        [
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+      ]),
+      11: new Level([
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+      ]),
+      12: new Level([
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+      ]),
+      13: new Level([
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+      ]),
+      14: new Level([
+        [
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["venomShooter"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder1"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+        [
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["robotSoldier"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+          this.enemyConfigs["exploder2"],
+        ],
+      ]),
+      // 15: new Level([
+      //   [
+
+      //   ],
+      // ]),
+      // 16: new Level([
+      //   [
+
+      //   ],
+      // ]),
+      // 17: new Level([
+      //   [
+
+      //   ],
+      // ]),
+      // 18: new Level([
+      //   [
+
+      //   ],
+      // ]),
+      // 19: new Level([
+      //   [
+
+      //   ],
+      // ]),
+
+
       // 0: new Level([
       //   [
-      //     this.enemyConfigs["exploderBoss"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
       //   ],
       // ]),
       // 1: new Level([
       //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
       //     this.enemyConfigs["exploder1"],
       //   ],
       // ]),
       // 2: new Level([
       //   [
       //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
       //   ],
       // ]),
       // 3: new Level([
       //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
       //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
       //   ],
       // ]),
       // 4: new Level([
       //   [
-      //     this.enemyConfigs["exploder1"],
-      //   ],
+      //     this.enemyConfigs["exploderBoss"],
+      //   ]
       // ]),
       // 5: new Level([
       //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
       //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
       //   ],
       // ]),
       // 6: new Level([
       //   [
       //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
       //   ],
       // ]),
       // 7: new Level([
       //   [
       //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
       //   ],
       // ]),
       // 8: new Level([
       //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //   ],
+      //   [
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["venomShooter"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
+      //     this.enemyConfigs["exploder1"],
       //     this.enemyConfigs["exploder1"],
       //   ],
       // ]),
       // 9: new Level([
       //   [
+      //     this.enemyConfigs["venomShooterBoss"],
       //     this.enemyConfigs["exploder1"],
-      //   ],
-      // ]),
-      // 10: new Level([
-      //   [
       //     this.enemyConfigs["exploder1"],
-      //   ],
+      //     this.enemyConfigs["exploder1"],
+      //   ]
       // ]),
-      0: new Level([
-        [
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-      ]),
-      1: new Level([
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-      ]),
-      2: new Level([
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-      ]),
-      3: new Level([
-        [
-          this.enemyConfigs["venomShooter"],
-          this.enemyConfigs["venomShooter"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-        ],
-        [
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["exploder1"],
-          this.enemyConfigs["venomShooter"],
-        ],
-      ]),
-      4: new Level([
-        [
-        this.enemyConfigs["exploderBoss"],
-        ]
-      ]),
-
-
 
     };
   }
